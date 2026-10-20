@@ -359,7 +359,7 @@ export const EnvelopeDistributeDialog = ({
                                             </SelectItem>
                                           ))}
 
-                                          <SelectItem value={'-1'}>Documenso</SelectItem>
+                                          <SelectItem value={'-1'}>Paraphe</SelectItem>
                                         </SelectContent>
                                       </Select>
                                     </FormControl>

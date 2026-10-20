@@ -3,6 +3,7 @@ import { useOptionalCurrentOrganisation } from '@documenso/lib/client-only/provi
 import { useSession } from '@documenso/lib/client-only/providers/session';
 import { IS_BILLING_ENABLED } from '@documenso/lib/constants/app';
 import { EXTENDED_ORGANISATION_MEMBER_ROLE_MAP } from '@documenso/lib/constants/organisations-translations';
+import { PARAPHE_FEATURES } from '@documenso/lib/constants/paraphe';
 import { EXTENDED_TEAM_MEMBER_ROLE_MAP } from '@documenso/lib/constants/teams-translations';
 import { formatAvatarUrl } from '@documenso/lib/utils/avatars';
 import { isAdmin } from '@documenso/lib/utils/is-admin';
@@ -189,12 +190,14 @@ export const OrgMenuSwitcher = () => {
                 </div>
               ))}
 
-              <Button variant="ghost" className="w-full justify-start" asChild>
-                <Link to="/settings/organisations?action=add-organisation">
-                  <Plus className="mr-2 h-4 w-4" />
-                  <Trans>Create Organisation</Trans>
-                </Link>
-              </Button>
+              {PARAPHE_FEATURES.organisations && (
+                <Button variant="ghost" className="w-full justify-start" asChild>
+                  <Link to="/settings/organisations?action=add-organisation">
+                    <Plus className="mr-2 h-4 w-4" />
+                    <Trans>Create Organisation</Trans>
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
 
@@ -247,7 +250,7 @@ export const OrgMenuSwitcher = () => {
                   </div>
                 )}
 
-                {displayedOrg && (
+                {displayedOrg && PARAPHE_FEATURES.teams && (
                   <Button variant="ghost" className="w-full justify-start" asChild>
                     <Link to={`/o/${displayedOrg.url}/settings/teams?action=add-team`}>
                       <Plus className="mr-2 h-4 w-4" />
@@ -318,14 +321,16 @@ export const OrgMenuSwitcher = () => {
                 </DropdownMenuItem>
               )}
 
-              <DropdownMenuItem
-                className="px-4 py-2 text-muted-foreground"
-                onClick={() => setLanguageSwitcherOpen(true)}
-              >
-                <Trans>Language</Trans>
-              </DropdownMenuItem>
+              {PARAPHE_FEATURES.languageSwitcher && (
+                <DropdownMenuItem
+                  className="px-4 py-2 text-muted-foreground"
+                  onClick={() => setLanguageSwitcherOpen(true)}
+                >
+                  <Trans>Language</Trans>
+                </DropdownMenuItem>
+              )}
 
-              {currentOrganisation && (
+              {currentOrganisation && PARAPHE_FEATURES.supportPage && (
                 <DropdownMenuItem className="px-4 py-2 text-muted-foreground" asChild>
                   <Link
                     to={{

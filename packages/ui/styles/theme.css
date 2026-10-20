@@ -19,8 +19,8 @@
     --card-border-tint: 112 205 159;
     --card-foreground: 222.2 47.4% 11.2%;
 
-    --field-card: 95 74% 90%;
-    --field-card-border: 95.08 71.08% 67.45%;
+    --field-card: 226 100% 94%;
+    --field-card-border: 226 100% 57.1%;
     --field-card-foreground: 222.2 47.4% 11.2%;
 
     --widget: 0 0% 97%;
@@ -29,19 +29,19 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    --primary: 95.08 71.08% 67.45%;
-    --primary-foreground: 95.08 71.08% 10%;
+    --primary: 226 100% 57.1%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 195 100% 93.7%;
+    --accent-foreground: 226 60% 15%;
 
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 95.08 71.08% 67.45%;
+    --ring: 226 100% 57.1%;
 
     --radius: 0.5rem;
 
@@ -83,17 +83,17 @@
     --new-white-900: 0, 0%, 100%;
 
     /* Primary - Green */
-    --new-primary-50: 98, 73%, 97%;
-    --new-primary-100: 95, 73%, 94%;
-    --new-primary-200: 94, 70%, 87%;
-    --new-primary-300: 95, 71%, 81%;
-    --new-primary-400: 95, 71%, 74%;
-    --new-primary-500: 95, 71%, 67%;
-    --new-primary-600: 95, 71%, 54%;
-    --new-primary-700: 95, 71%, 41%;
-    --new-primary-800: 95, 71%, 27%;
-    --new-primary-900: 95, 72%, 14%;
-    --new-primary-950: 95, 72%, 7%;
+    --new-primary-50: 226, 100%, 97%;
+    --new-primary-100: 226, 100%, 94%;
+    --new-primary-200: 226, 100%, 87%;
+    --new-primary-300: 226, 100%, 79%;
+    --new-primary-400: 226, 100%, 69%;
+    --new-primary-500: 226, 100%, 57%;
+    --new-primary-600: 226, 90%, 48%;
+    --new-primary-700: 226, 80%, 39%;
+    --new-primary-800: 226, 75%, 30%;
+    --new-primary-900: 226, 70%, 20%;
+    --new-primary-950: 226, 70%, 12%;
 
     /* Secondary - Info */
     --new-info-50: 210, 54%, 95%;
@@ -164,19 +164,19 @@
 
     --field-border: 214.3 31.8% 91.4%;
 
-    --primary: 95.08 71.08% 67.45%;
-    --primary-foreground: 95.08 71.08% 10%;
+    --primary: 226 100% 72%;
+    --primary-foreground: 226 60% 10%;
 
     --secondary: 0 0% 23.4%;
-    --secondary-foreground: 95.08 71.08% 67.45%;
+    --secondary-foreground: 226 100% 72%;
 
     --accent: 0 0% 27.9%;
-    --accent-foreground: 95.08 71.08% 67.45%;
+    --accent-foreground: 226 100% 72%;
 
     --destructive: 0 87% 62%;
     --destructive-foreground: 0 0% 98%;
 
-    --ring: 95.08 71.08% 67.45%;
+    --ring: 226 100% 72%;
 
     --radius: 0.5rem;
 

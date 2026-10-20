@@ -1,5 +1,6 @@
 import type { EnvelopeEditorStep } from '@documenso/lib/client-only/providers/envelope-editor-provider';
 import { useCurrentEnvelopeEditor } from '@documenso/lib/client-only/providers/envelope-editor-provider';
+import { PARAPHE_FEATURES } from '@documenso/lib/constants/paraphe';
 import { mapSecondaryIdToTemplateId } from '@documenso/lib/utils/envelope';
 import { cn } from '@documenso/ui/lib/utils';
 import { Button } from '@documenso/ui/primitives/button';
@@ -270,7 +271,7 @@ export const EnvelopeEditor = () => {
                   className={cn(
                     `cursor-pointer rounded-lg text-left transition-colors ${
                       isActive
-                        ? 'border border-green-200 bg-green-50 dark:border-green-500/20 dark:bg-green-500/10'
+                        ? 'border border-documenso-200 bg-documenso-50 dark:border-documenso-500/20 dark:bg-documenso-500/10'
                         : 'border border-gray-200 hover:bg-gray-50 dark:border-gray-400/20 dark:hover:bg-gray-400/10'
                     }`,
                     {
@@ -283,11 +284,11 @@ export const EnvelopeEditor = () => {
                     <div
                       className={`rounded border p-2 ${
                         isActive
-                          ? 'border-green-200 bg-green-50 dark:border-green-500/20 dark:bg-green-500/10'
+                          ? 'border-documenso-200 bg-documenso-50 dark:border-documenso-500/20 dark:bg-documenso-500/10'
                           : 'border-gray-100 bg-gray-100 dark:border-gray-400/20 dark:bg-gray-400/10'
                       }`}
                     >
-                      <Icon className={`h-4 w-4 ${isActive ? 'text-green-600' : 'text-gray-600'}`} />
+                      <Icon className={`h-4 w-4 ${isActive ? 'text-documenso-600' : 'text-gray-600'}`} />
                     </div>
 
                     {!minimizeLeftSidebar && (
@@ -295,7 +296,7 @@ export const EnvelopeEditor = () => {
                         <div
                           className={`font-medium text-sm ${
                             isActive
-                              ? 'text-green-900 dark:text-green-400'
+                              ? 'text-documenso-900 dark:text-documenso-400'
                               : 'text-foreground dark:text-muted-foreground'
                           }`}
                         >
@@ -417,7 +418,7 @@ export const EnvelopeEditor = () => {
               />
             )}
 
-            {allowSaveAsTemplate && isDocument && (
+            {allowSaveAsTemplate && isDocument && PARAPHE_FEATURES.templates && (
               <EnvelopeSaveAsTemplateDialog
                 envelopeId={envelope.id}
                 trigger={

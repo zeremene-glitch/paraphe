@@ -19,6 +19,7 @@ import {
 import type { ComponentType } from 'react';
 import { FaUsers } from 'react-icons/fa6';
 import { IS_BILLING_ENABLED, IS_DOCUMENSO_CLOUD } from '../constants/app';
+import { PARAPHE_FEATURES } from '../constants/paraphe';
 import { canExecuteOrganisationAction } from './organisations';
 import { canExecuteTeamAction } from './teams';
 
@@ -79,6 +80,9 @@ export const getSettingsNavGroups = ({
     organisation !== null && canExecuteOrganisationAction('MANAGE_ORGANISATION', organisation.currentOrganisationRole);
 
   const canManageTeam = team !== null && canExecuteTeamAction('MANAGE_TEAM', team.currentTeamRole);
+
+  // Paraphe: hide organisation settings that are out of scope for the MVP.
+  const parapheHiddenOrgItems = new Set<string>([...(PARAPHE_FEATURES.teams ? [] : ['teams', 'members', 'groups'])]);
 
   const orgGroup: SettingsNavGroup | null = canManageOrg
     ? {
@@ -175,9 +179,17 @@ export const getSettingsNavGroups = ({
                 },
               ]
             : []),
-        ],
+        ].filter((item) => !parapheHiddenOrgItems.has(item.key)),
       }
     : null;
+
+  // Paraphe: hide team settings that are out of scope for the MVP.
+  const parapheHiddenTeamItems = new Set<string>([
+    ...(PARAPHE_FEATURES.teams ? [] : ['members', 'groups']),
+    ...(PARAPHE_FEATURES.publicProfile ? [] : ['public-profile']),
+    ...(PARAPHE_FEATURES.apiTokens ? [] : ['tokens']),
+    ...(PARAPHE_FEATURES.webhooks ? [] : ['webhooks']),
+  ]);
 
   const teamGroup: SettingsNavGroup | null =
     canManageTeam && team
@@ -257,7 +269,7 @@ export const getSettingsNavGroups = ({
               label: msg`Webhooks`,
               icon: WebhookIcon,
             },
-          ],
+          ].filter((item) => !parapheHiddenTeamItems.has(item.key)),
         }
       : null;
 

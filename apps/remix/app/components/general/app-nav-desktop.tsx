@@ -1,4 +1,5 @@
 import { useSession } from '@documenso/lib/client-only/providers/session';
+import { PARAPHE_FEATURES } from '@documenso/lib/constants/paraphe';
 import { cn } from '@documenso/ui/lib/utils';
 import { Button } from '@documenso/ui/primitives/button';
 import { msg } from '@lingui/core/macro';
@@ -49,10 +50,14 @@ export const AppNavDesktop = ({ className, setIsCommandMenuOpen, ...props }: App
         href: `/t/${teamUrl}/documents`,
         label: msg`Documents`,
       },
-      {
-        href: `/t/${teamUrl}/templates`,
-        label: msg`Templates`,
-      },
+      ...(PARAPHE_FEATURES.templates
+        ? [
+            {
+              href: `/t/${teamUrl}/templates`,
+              label: msg`Templates`,
+            },
+          ]
+        : []),
     ];
   }, [currentTeam, organisations]);
 

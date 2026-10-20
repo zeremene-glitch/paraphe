@@ -7,6 +7,7 @@ import {
   SETTINGS_PAGE_SHORTCUT,
   TEMPLATES_PAGE_SHORTCUT,
 } from '@documenso/lib/constants/keyboard-shortcuts';
+import { PARAPHE_FEATURES } from '@documenso/lib/constants/paraphe';
 import { DO_NOT_INVALIDATE_QUERY_ON_MUTATION, SKIP_QUERY_BATCH_META } from '@documenso/lib/constants/trpc';
 import { dynamicActivate } from '@documenso/lib/utils/i18n';
 import { trpc as trpcReact } from '@documenso/trpc/react';
@@ -272,17 +273,18 @@ export const AppCommandMenu = ({ open, onOpenChange }: AppCommandMenuProps) => {
         ]
       : [];
 
-    const templatePageLinks: PromptItem[] = teamUrl
-      ? [
-          {
-            id: 'templates-all',
-            label: msg`All templates`,
-            path: `/t/${teamUrl}/templates`,
-            icon: LayoutTemplateIcon,
-            shortcut: TEMPLATES_PAGE_SHORTCUT.replace('+', ''),
-          },
-        ]
-      : [];
+    const templatePageLinks: PromptItem[] =
+      teamUrl && PARAPHE_FEATURES.templates
+        ? [
+            {
+              id: 'templates-all',
+              label: msg`All templates`,
+              path: `/t/${teamUrl}/templates`,
+              icon: LayoutTemplateIcon,
+              shortcut: TEMPLATES_PAGE_SHORTCUT.replace('+', ''),
+            },
+          ]
+        : [];
 
     const settingsLinks: PromptItem[] = [
       {
@@ -294,12 +296,16 @@ export const AppCommandMenu = ({ open, onOpenChange }: AppCommandMenuProps) => {
       },
       { id: 'settings-profile', label: msg`Profile`, path: '/settings/profile', icon: UserIcon },
       { id: 'settings-password', label: msg`Password`, path: '/settings/security', icon: KeyRoundIcon },
-      {
-        id: 'settings-language',
-        label: msg`Change language`,
-        icon: LanguagesIcon,
-        onAction: () => goToPage('language'),
-      },
+      ...(PARAPHE_FEATURES.languageSwitcher
+        ? [
+            {
+              id: 'settings-language',
+              label: msg`Change language`,
+              icon: LanguagesIcon,
+              onAction: () => goToPage('language'),
+            },
+          ]
+        : []),
       { id: 'settings-theme', label: msg`Change theme`, icon: PaletteIcon, onAction: () => goToPage('theme') },
     ];
 
@@ -597,11 +603,7 @@ export const AppCommandMenu = ({ open, onOpenChange }: AppCommandMenuProps) => {
             <span className="ml-auto text-muted-foreground text-xs">
               {hasValidSearch ? (
                 isVisibleCountCapped ? (
-                  <Plural
-                    value={totalVisibleCount}
-                    one="≥# result"
-                    other="≥# results"
-                  />
+                  <Plural value={totalVisibleCount} one="≥# result" other="≥# results" />
                 ) : (
                   <Plural value={totalVisibleCount} one="# result" other="# results" />
                 )
