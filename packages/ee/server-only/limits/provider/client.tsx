@@ -1,9 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+import { createContext, useContext, useMemo } from 'react';
 
-import { isDeepEqual } from 'remeda';
-
-import { getLimits } from '../client';
-import { DEFAULT_MINIMUM_ENVELOPE_ITEM_COUNT, FREE_PLAN_LIMITS } from '../constants';
+import { DEFAULT_MINIMUM_ENVELOPE_ITEM_COUNT, PAID_PLAN_LIMITS } from '../constants';
 import type { TLimitsResponseSchema } from '../schema';
 
 export type LimitsContextValue = TLimitsResponseSchema & { refreshLimits: () => Promise<void> };
@@ -22,72 +20,27 @@ export const useLimits = () => {
 
 export type LimitsProviderProps = {
   initialValue?: TLimitsResponseSchema;
-
-  /**
-   * Bypass limits for embed authoring. This is just client side bypass since
-   * all embeds should be paid plans.
-   */
   disableLimitsFetch?: boolean;
   teamId: number;
   children?: React.ReactNode;
 };
 
-export const LimitsProvider = ({
-  initialValue = {
-    quota: FREE_PLAN_LIMITS,
-    remaining: FREE_PLAN_LIMITS,
-    maximumEnvelopeItemCount: DEFAULT_MINIMUM_ENVELOPE_ITEM_COUNT,
-  },
-  disableLimitsFetch,
-  teamId,
-  children,
-}: LimitsProviderProps) => {
-  const [limits, setLimits] = useState(() => initialValue);
+/**
+ * Paraphe has no billing: limits are always unlimited, so nothing is fetched
+ * and `refreshLimits` is a no-op. The server-provided item cap is honoured.
+ */
+export const LimitsProvider = ({ initialValue, children }: LimitsProviderProps) => {
+  const maximumEnvelopeItemCount = initialValue?.maximumEnvelopeItemCount ?? DEFAULT_MINIMUM_ENVELOPE_ITEM_COUNT;
 
-  const refreshLimits = useCallback(async () => {
-    if (disableLimitsFetch) {
-      return;
-    }
-
-    const newLimits = await getLimits({ teamId });
-
-    setLimits((oldLimits) => {
-      if (isDeepEqual(oldLimits, newLimits)) {
-        return oldLimits;
-      }
-
-      return newLimits;
-    });
-  }, [teamId]);
-
-  useEffect(() => {
-    void refreshLimits();
-  }, [refreshLimits]);
-
-  useEffect(() => {
-    if (disableLimitsFetch) {
-      return;
-    }
-
-    const onFocus = () => {
-      void refreshLimits();
-    };
-
-    window.addEventListener('focus', onFocus);
-
-    return () => {
-      window.removeEventListener('focus', onFocus);
-    };
-  }, [refreshLimits]);
-
-  return (
-    <LimitsContext.Provider
-      value={{
-        ...limits,
-        refreshLimits,
-      }}
-    >
-      {children}
-    </LimitsContext.Provider>
+  const value = useMemo<LimitsContextValue>(
+    () => ({
+      quota: PAID_PLAN_LIMITS,
+      remaining: PAID_PLAN_LIMITS,
+      maximumEnvelopeItemCount,
+      refreshLimits: async () => {},
+    }),
+    [maximumEnvelopeItemCount],
   );
+
+  return <LimitsContext.Provider value={value}>{children}</LimitsContext.Provider>;
 };

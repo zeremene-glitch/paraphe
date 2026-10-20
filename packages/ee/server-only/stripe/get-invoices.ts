@@ -1,11 +1,11 @@
-import { stripe } from '@documenso/lib/server-only/stripe';
+// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import type { Stripe } from '@documenso/lib/server-only/stripe';
 
 export type GetInvoicesOptions = {
   customerId: string;
 };
 
-export const getInvoices = async ({ customerId }: GetInvoicesOptions) => {
-  return await stripe.invoices.list({
-    customer: customerId,
-  });
+export const getInvoices = async (_options: GetInvoicesOptions): Promise<Stripe.ApiList<Stripe.Invoice>> => {
+  throw new AppError(AppErrorCode.NOT_SETUP, { message: 'Billing is not available in Paraphe' });
 };

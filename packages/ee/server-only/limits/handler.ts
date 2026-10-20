@@ -1,5 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
 import { getSession } from '@documenso/auth/server/lib/utils/get-session';
-import { match } from 'ts-pattern';
 
 import { ERROR_CODES } from './errors';
 import { getServerLimits } from './server';
@@ -9,47 +9,23 @@ export const limitsHandler = async (req: Request) => {
     const { user } = await getSession(req);
 
     const rawTeamId = req.headers.get('team-id');
+    const teamId = rawTeamId ? parseInt(rawTeamId, 10) : NaN;
 
-    let teamId: number | null = null;
-
-    if (typeof rawTeamId === 'string' && !isNaN(parseInt(rawTeamId, 10))) {
-      teamId = parseInt(rawTeamId, 10);
-    }
-
-    if (!teamId) {
-      throw new Error(ERROR_CODES.INVALID_TEAM_ID);
+    if (!teamId || isNaN(teamId)) {
+      throw new Error('INVALID_TEAM_ID');
     }
 
     const limits = await getServerLimits({ userId: user.id, teamId });
 
-    return Response.json(limits, {
-      status: 200,
-    });
+    return Response.json(limits, { status: 200 });
   } catch (err) {
     console.error('error', err);
 
-    if (err instanceof Error) {
-      const status = match(err.message)
-        .with(ERROR_CODES.UNAUTHORIZED, () => 401)
-        .otherwise(() => 500);
-
-      return Response.json(
-        {
-          error: ERROR_CODES[err.message] ?? ERROR_CODES.UNKNOWN,
-        },
-        {
-          status,
-        },
-      );
-    }
+    const message = err instanceof Error ? err.message : 'UNKNOWN';
 
     return Response.json(
-      {
-        error: ERROR_CODES.UNKNOWN,
-      },
-      {
-        status: 500,
-      },
+      { error: ERROR_CODES[message] ?? ERROR_CODES.UNKNOWN },
+      { status: message === 'UNAUTHORIZED' ? 401 : 500 },
     );
   }
 };

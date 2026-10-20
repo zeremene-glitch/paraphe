@@ -1,8 +1,7 @@
-import { stripe } from '@documenso/lib/server-only/stripe';
-import { INTERNAL_CLAIM_ID, type InternalClaim, internalClaims } from '@documenso/lib/types/subscription';
-import { toHumanPrice } from '@documenso/lib/universal/stripe/to-human-price';
-import { clone } from 'remeda';
-import type Stripe from 'stripe';
+// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import type { Stripe } from '@documenso/lib/server-only/stripe';
+import type { INTERNAL_CLAIM_ID, InternalClaim } from '@documenso/lib/types/subscription';
 
 export type InternalClaimPlans = {
   [key in INTERNAL_CLAIM_ID]: InternalClaim & {
@@ -19,61 +18,6 @@ export type InternalClaimPlans = {
   };
 };
 
-/**
- * Returns the main Documenso plans from Stripe.
- */
 export const getInternalClaimPlans = async (): Promise<InternalClaimPlans> => {
-  const { data: prices } = await stripe.prices.search({
-    query: `active:'true' type:'recurring'`,
-    expand: ['data.product'],
-    limit: 100,
-  });
-
-  const plans: InternalClaimPlans = clone(internalClaims);
-
-  prices.forEach((price) => {
-    // We use `expand` to get the product, but it's not typed as part of the Price type.
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const product = price.product as Stripe.Product;
-
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const productClaimId = product.metadata.claimId as INTERNAL_CLAIM_ID | undefined;
-    const isVisibleInApp = price.metadata.visibleInApp === 'true';
-
-    if (!productClaimId || !Object.values(INTERNAL_CLAIM_ID).includes(productClaimId)) {
-      return;
-    }
-
-    let usdPrice = toHumanPrice(price.unit_amount ?? 0);
-
-    if (price.recurring?.interval === 'month') {
-      if (product.metadata['isSeatBased'] === 'true') {
-        usdPrice = '50';
-      }
-
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      plans[productClaimId].monthlyPrice = {
-        ...price,
-        isVisibleInApp,
-        product,
-        friendlyPrice: `$${usdPrice} ${price.currency.toUpperCase()}`.replace('.00', ''),
-      };
-    }
-
-    if (price.recurring?.interval === 'year') {
-      if (product.metadata['isSeatBased'] === 'true') {
-        usdPrice = '480';
-      }
-
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      plans[productClaimId].yearlyPrice = {
-        ...price,
-        isVisibleInApp,
-        product,
-        friendlyPrice: `$${usdPrice} ${price.currency.toUpperCase()}`.replace('.00', ''),
-      };
-    }
-  });
-
-  return plans;
+  throw new AppError(AppErrorCode.NOT_SETUP, { message: 'Billing plans are not available in Paraphe' });
 };

@@ -1,21 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
 import { z } from 'zod';
 
 import { DEFAULT_MINIMUM_ENVELOPE_ITEM_COUNT } from './constants';
 
-// Not proud of the below but it's a way to deal with Infinity when returning JSON.
+// JSON cannot carry Infinity, so it travels as null and is turned back here.
+const ZLimitValue = z
+  .preprocess((v) => (v === null ? Infinity : Number(v)), z.number())
+  .optional()
+  .default(0);
+
 export const ZLimitsSchema = z.object({
-  documents: z
-    .preprocess((v) => (v === null ? Infinity : Number(v)), z.number())
-    .optional()
-    .default(0),
-  recipients: z
-    .preprocess((v) => (v === null ? Infinity : Number(v)), z.number())
-    .optional()
-    .default(0),
-  directTemplates: z
-    .preprocess((v) => (v === null ? Infinity : Number(v)), z.number())
-    .optional()
-    .default(0),
+  documents: ZLimitValue,
+  recipients: ZLimitValue,
+  directTemplates: ZLimitValue,
 });
 
 export type TLimitsSchema = z.infer<typeof ZLimitsSchema>;
