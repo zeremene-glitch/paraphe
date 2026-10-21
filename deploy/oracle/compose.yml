@@ -1,0 +1,70 @@
+# Paraphe on a single server (Oracle Cloud Always Free, Ubuntu, arm64).
+# Run from this folder: docker compose up -d --build
+# Secrets live in ./.env and ./secrets/ (both created by setup.sh, never committed).
+
+name: paraphe
+
+services:
+  database:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=paraphe
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?run setup.sh first}
+      - POSTGRES_DB=paraphe
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U paraphe -d paraphe']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - database:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: ../..
+      dockerfile: docker/Dockerfile
+    image: paraphe:local
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      - PORT=3000
+      - NEXT_PRIVATE_DATABASE_URL=postgres://paraphe:${POSTGRES_PASSWORD}@database:5432/paraphe
+      - NEXT_PRIVATE_DIRECT_DATABASE_URL=postgres://paraphe:${POSTGRES_PASSWORD}@database:5432/paraphe
+      - NEXT_PRIVATE_INTERNAL_WEBAPP_URL=http://localhost:3000
+      - NEXT_PRIVATE_SIGNING_TRANSPORT=local
+      - NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH=/opt/paraphe/cert.p12
+      - DOCUMENSO_DISABLE_TELEMETRY=true
+    volumes:
+      - ./secrets/cert.p12:/opt/paraphe/cert.p12:ro
+
+  # Catches outgoing email until a real provider (e.g. Brevo) is configured.
+  # Its web page is only reachable from the server itself (use an SSH tunnel).
+  mail:
+    image: axllent/mailpit:v1.27
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:8025:8025
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - PARAPHE_DOMAIN=${PARAPHE_DOMAIN:?run setup.sh first}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  database:
+  caddy_data:
+  caddy_config:

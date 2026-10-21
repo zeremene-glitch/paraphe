@@ -1,0 +1,5 @@
+# HTTPS is automatic: Caddy gets and renews a Let's Encrypt certificate for the domain.
+{$PARAPHE_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:3000
+}
