@@ -75,6 +75,9 @@ EOF
   chmod 600 .env
 fi
 
+# Settings added after the first install (kept if already present)
+grep -q '^CONVERTER_PASSWORD=' .env || echo "CONVERTER_PASSWORD=$(openssl rand -hex 24)" >> .env
+
 if [ ! -f secrets/cert.p12 ]; then
   say 'Creating the document signing certificate'
   PASS="$(grep -E '^NEXT_PRIVATE_SIGNING_PASSPHRASE=' .env | cut -d= -f2-)"

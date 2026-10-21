@@ -8,7 +8,7 @@
  * The routes still exist; these switches only control what the UI offers.
  */
 export const PARAPHE_FEATURES = {
-  templates: false,
+  templates: true,
   organisations: false,
   teams: false,
   apiTokens: false,

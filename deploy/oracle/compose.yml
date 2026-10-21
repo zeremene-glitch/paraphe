@@ -38,8 +38,30 @@ services:
       - NEXT_PRIVATE_SIGNING_TRANSPORT=local
       - NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH=/opt/paraphe/cert.p12
       - DOCUMENSO_DISABLE_TELEMETRY=true
+      - NEXT_PRIVATE_DOCUMENT_CONVERSION_URL=http://converter:3000
+      - NEXT_PRIVATE_DOCUMENT_CONVERSION_USERNAME=scriptia
+      - NEXT_PRIVATE_DOCUMENT_CONVERSION_PASSWORD=${CONVERTER_PASSWORD:?run setup.sh first}
     volumes:
       - ./secrets/cert.p12:/opt/paraphe/cert.p12:ro
+
+  # Converts uploaded Word documents to PDF. Internal only: no published port.
+  converter:
+    build:
+      context: ../../docker/development
+      dockerfile: Dockerfile.gotenberg
+    image: scriptia-converter:local
+    restart: unless-stopped
+    environment:
+      - GOTENBERG_API_BASIC_AUTH_USERNAME=scriptia
+      - GOTENBERG_API_BASIC_AUTH_PASSWORD=${CONVERTER_PASSWORD:?run setup.sh first}
+    command:
+      - gotenberg
+      - --api-enable-basic-auth
+      - --libreoffice-deny-private-ips
+      - --api-timeout=120s
+      - --libreoffice-auto-start
+      - --pdfengines-disable-routes
+      - --webhook-disable
 
   # Catches outgoing email until a real provider (e.g. Brevo) is configured.
   # Its web page is only reachable from the server itself (use an SSH tunnel).
