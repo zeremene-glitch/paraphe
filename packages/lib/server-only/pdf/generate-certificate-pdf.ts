@@ -12,6 +12,7 @@ import { extractDocumentAuthMethods } from '../../utils/document-auth';
 import { getTranslations } from '../../utils/i18n';
 import { getDocumentCertificateAuditLogs } from '../document/get-document-certificate-audit-logs';
 import { getOrganisationClaimByTeamId } from '../organisation/get-organisation-claims';
+import type { OriginalDocumentDigest } from './get-original-document-digests';
 import { renderCertificate } from './render-certificate';
 
 export type GenerateCertificatePdfOptions = {
@@ -34,12 +35,31 @@ export type GenerateCertificatePdfOptions = {
     signature?: Pick<Signature, 'signatureImageAsBase64' | 'typedSignature'> | null;
   })[];
   language?: string;
+  /**
+   * When the envelope was (or is being) completed. The seal job passes the
+   * timestamp it is about to persist; standalone downloads pass the stored value.
+   */
+  completedAt?: Date | null;
+  /**
+   * SHA-256 digests of the original uploaded PDFs (one per envelope item).
+   */
+  originalDocuments?: OriginalDocumentDigest[];
   pageWidth: number;
   pageHeight: number;
 };
 
 export const generateCertificatePdf = async (options: GenerateCertificatePdfOptions) => {
-  const { envelope, envelopeOwner, recipients, fields, language, pageWidth, pageHeight } = options;
+  const {
+    envelope,
+    envelopeOwner,
+    recipients,
+    fields,
+    language,
+    completedAt,
+    originalDocuments,
+    pageWidth,
+    pageHeight,
+  } = options;
 
   const documentLanguage = ZSupportedLanguageCodeSchema.parse(language);
 
@@ -137,6 +157,11 @@ export const generateCertificatePdf = async (options: GenerateCertificatePdfOpti
     }),
     envelopeOwner,
     envelopeId: envelope.id,
+    envelopeTitle: envelope.title,
+    envelopeStatus: envelope.status,
+    createdAt: envelope.createdAt,
+    completedAt: completedAt ?? null,
+    originalDocuments: originalDocuments ?? [],
     qrToken: envelope.qrToken,
     hidePoweredBy: organisationClaim.flags.hidePoweredBy ?? false,
     pageWidth,

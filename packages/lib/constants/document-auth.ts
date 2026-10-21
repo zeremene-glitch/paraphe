@@ -20,7 +20,7 @@ export const DOCUMENT_AUTH_TYPES: Record<string, DocumentAuthTypeData> = {
   },
   [DocumentAuth.TWO_FACTOR_AUTH]: {
     key: DocumentAuth.TWO_FACTOR_AUTH,
-    value: msg`Require 2FA`,
+    value: msg`Require verification code (email or authenticator app)`,
   },
   [DocumentAuth.PASSWORD]: {
     key: DocumentAuth.PASSWORD,

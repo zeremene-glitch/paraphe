@@ -48,9 +48,9 @@ type GenerateAuditLogsOptions = {
 
 const parser = new UAParser();
 
-const textMutedForegroundLight = '#929DAE';
-const textForeground = '#000';
-const textMutedForeground = '#64748B';
+const textMutedForegroundLight = '#8A93A3';
+const textForeground = '#0B1530';
+const textMutedForeground = '#5B6476';
 const textBase = 10;
 const textSm = 9;
 const textXs = 8;
@@ -289,7 +289,7 @@ const renderOverviewCard = (options: RenderOverviewCardOptions) => {
     y: 0,
     width,
     height: overviewCard.getClientRect().height + cardPadding * 2,
-    stroke: '#e5e7eb',
+    stroke: '#E3E8F0',
     strokeWidth: 1.5,
     cornerRadius: 8,
   });
@@ -372,7 +372,7 @@ const renderRow = (options: RenderRowOptions) => {
   // Draw border line.
   const borderLine = new Konva.Line({
     points: [0, 0, width - paddingWithinCard * 2, 0],
-    stroke: '#e5e7eb',
+    stroke: '#E3E8F0',
     strokeWidth: 1,
     x: paddingWithinCard,
     y: rowGroup.getClientRect().height + paddingWithinCard + 12,
@@ -427,7 +427,7 @@ const renderRow = (options: RenderRowOptions) => {
     y: 0,
     width: rowGroup.getClientRect().width,
     height: rowGroup.getClientRect().height + paddingWithinCard * 2,
-    stroke: '#e5e7eb',
+    stroke: '#E3E8F0',
     strokeWidth: 1,
     cornerRadius: 8,
   });
@@ -699,12 +699,12 @@ const dateFormat: DateTimeFormatOptions = {
  */
 const getAuditLogIndicatorColor = (type: string) =>
   match(type)
-    .with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_COMPLETED, () => '#22c55e') // bg-green-500
+    .with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_COMPLETED, () => '#0F7B4B')
     .with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_REJECTED, () => '#ef4444') // bg-red-500
     .with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_SENT, () => '#f97316') // bg-orange-500
     .with(
       P.union(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_FIELD_INSERTED, DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_FIELD_UNINSERTED),
-      () => '#3b82f6', // bg-blue-500
+      () => '#2457FF',
     )
     .otherwise(() => '#f1f5f9'); // bg-muted
 

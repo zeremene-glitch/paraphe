@@ -4,6 +4,7 @@ import { finalizeTspEnvelopeCompletion } from '@documenso/ee/server-only/signing
 import { addRejectionStampToPdf } from '@documenso/lib/server-only/pdf/add-rejection-stamp-to-pdf';
 import { generateAuditLogPdf } from '@documenso/lib/server-only/pdf/generate-audit-log-pdf';
 import { generateCertificatePdf } from '@documenso/lib/server-only/pdf/generate-certificate-pdf';
+import { getOriginalDocumentDigests } from '@documenso/lib/server-only/pdf/get-original-document-digests';
 import { getLastPageDimensions } from '@documenso/lib/server-only/pdf/get-page-size';
 import { prisma } from '@documenso/prisma';
 import { signPdf } from '@documenso/signing';
@@ -208,6 +209,21 @@ export const run = async ({ payload, io }: { payload: TSealDocumentJobDefinition
     const needsCertificate = settings.includeSigningCertificate;
     const needsAuditLog = settings.includeAuditLog;
 
+    // Completion timestamp shown on the certificate and persisted on the envelope.
+    const completedAt = new Date();
+
+    // SHA-256 of the ORIGINAL uploaded PDFs, printed on the certificate.
+    const originalDocuments =
+      needsCertificate && !usePlaywrightPdf
+        ? await getOriginalDocumentDigests({
+            envelopeItems: prefetchedItems.map(({ envelopeItem, pdfData }) => ({
+              title: envelopeItem.title,
+              documentData: envelopeItem.documentData,
+              prefetchedData: pdfData,
+            })),
+          })
+        : [];
+
     const newDocumentData: Array<{ oldDocumentDataId: string; newDocumentDataId: string }> = [];
 
     for (const { envelopeItem, pdfData } of prefetchedItems) {
@@ -242,6 +258,8 @@ export const run = async ({ payload, io }: { payload: TSealDocumentJobDefinition
           recipients: envelope.recipients,
           fields,
           language: envelope.documentMeta.language,
+          completedAt,
+          originalDocuments,
           envelopeOwner: {
             email: envelope.user.email,
             name: envelope.user.name || '',
@@ -307,7 +325,7 @@ export const run = async ({ payload, io }: { payload: TSealDocumentJobDefinition
         },
         data: {
           status: finalEnvelopeStatus,
-          completedAt: new Date(),
+          completedAt,
         },
       });
 

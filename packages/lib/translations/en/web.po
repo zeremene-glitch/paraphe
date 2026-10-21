@@ -534,6 +534,10 @@ msgstr "{recipientReference} has signed {documentName}"
 msgid "{remaningLength, plural, one {# character remaining} other {# characters remaining}}"
 msgstr "{remaningLength, plural, one {# character remaining} other {# characters remaining}}"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "{roleName} · {position} of {total}"
+msgstr "{roleName} · {position} of {total}"
+
 #: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
 msgid "{rowCount, plural, one {The CSV contains # row.} other {The CSV contains # rows.}} {maxRows, plural, one {A maximum of # row is allowed per upload.} other {A maximum of # rows is allowed per upload.}}"
 msgstr "{rowCount, plural, one {The CSV contains # row.} other {The CSV contains # rows.}} {maxRows, plural, one {A maximum of # row is allowed per upload.} other {A maximum of # rows is allowed per upload.}}"
@@ -1231,6 +1235,10 @@ msgstr "Accept team email request for {teamName} on Scriptia"
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Acceptance and Consent"
 msgstr "Acceptance and Consent"
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Accepted the electronic signature disclosure when signing on {signedAt}."
+msgstr "Accepted the electronic signature disclosure when signing on {signedAt}."
 
 #: apps/remix/app/components/dialogs/team-inherit-member-disable-dialog.tsx
 msgid "Access disabled"
@@ -2428,8 +2436,11 @@ msgstr "Audit Log Details"
 msgid "Audit Logs"
 msgstr "Audit Logs"
 
-#: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Authentication"
+msgstr "Authentication"
+
+#: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 msgid "Authentication Level"
 msgstr "Authentication Level"
 
@@ -2912,6 +2923,10 @@ msgstr "Ccers"
 msgid "Center"
 msgstr "Center"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Certificate of Completion"
+msgstr "Certificate of Completion"
+
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.certificates.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.certificates.tsx
 msgid "Certificate preferences updated"
@@ -3182,6 +3197,8 @@ msgstr "Complete the fields for the following signers."
 #: packages/email/template-components/template-document-recipient-signed.tsx
 #: packages/email/template-components/template-document-self-signed.tsx
 #: packages/lib/constants/document.ts
+#: packages/lib/server-only/pdf/render-certificate.ts
+#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Completed"
 msgstr "Completed"
 
@@ -3334,6 +3351,10 @@ msgstr "Confirmation email sent"
 #: apps/remix/app/routes/embed+/auth+/popup.tsx
 msgid "Connecting to the embed..."
 msgstr "Connecting to the embed..."
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Consent recorded."
+msgstr "Consent recorded."
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Consent to Electronic Transactions"
@@ -3808,6 +3829,7 @@ msgstr "Create your account and start using state-of-the-art document signing. O
 #: apps/remix/app/routes/_authenticated+/settings+/security.sessions.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.tokens.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
+#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Created"
 msgstr "Created"
 
@@ -4300,7 +4322,6 @@ msgstr "Destination"
 
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
-#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Details"
 msgstr "Details"
 
@@ -4518,6 +4539,7 @@ msgstr "Documenso License"
 
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.logs.tsx
+#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Document"
 msgstr "Document"
 
@@ -4752,6 +4774,7 @@ msgstr "Document moved to team"
 
 #: apps/remix/app/components/dialogs/template-use-dialog.tsx
 #: apps/remix/app/components/dialogs/template-use-dialog.tsx
+#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Document name"
 msgstr "Document name"
 
@@ -5325,6 +5348,14 @@ msgstr "Electronic Delivery of Documents"
 msgid "Electronic Signature Disclosure"
 msgstr "Electronic Signature Disclosure"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Electronically signed with Scriptia. Simple electronic signatures under eIDAS (EU) and ESIGN/UETA (US). This PDF is digitally sealed: any change made after signing invalidates the seal."
+msgstr "Electronically signed with Scriptia. Simple electronic signatures under eIDAS (EU) and ESIGN/UETA (US). This PDF is digitally sealed: any change made after signing invalidates the seal."
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Electronically signed. Simple electronic signatures under eIDAS (EU) and ESIGN/UETA (US). This PDF is digitally sealed: any change made after signing invalidates the seal."
+msgstr "Electronically signed. Simple electronic signatures under eIDAS (EU) and ESIGN/UETA (US). This PDF is digitally sealed: any change made after signing invalidates the seal."
+
 #: apps/remix/app/components/dialogs/admin-user-create-dialog.tsx
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/dialogs/assistant-confirmation-dialog.tsx
@@ -5835,7 +5866,6 @@ msgstr "Envelope distributed"
 #: packages/lib/server-only/pdf/render-audit-logs.ts
 #: packages/lib/server-only/pdf/render-audit-logs.ts
 #: packages/lib/server-only/pdf/render-audit-logs.ts
-#: packages/lib/server-only/pdf/render-certificate.ts
 #: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Envelope ID"
 msgstr "Envelope ID"
@@ -6780,7 +6810,6 @@ msgid "I am required to receive a copy of this document"
 msgstr "I am required to receive a copy of this document"
 
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
-#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "I am the owner of this document"
 msgstr "I am the owner of this document"
 
@@ -7106,6 +7135,10 @@ msgstr "Invited At"
 msgid "Invoice"
 msgstr "Invoice"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "IP address"
+msgstr "IP address"
+
 #: apps/remix/app/components/tables/admin-document-logs-table.tsx
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
 #: apps/remix/app/components/tables/document-logs-table.tsx
@@ -7114,7 +7147,6 @@ msgstr "Invoice"
 #: apps/remix/app/routes/_authenticated+/settings+/security.sessions.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-audit-logs.ts
-#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "IP Address"
 msgstr "IP Address"
 
@@ -8237,6 +8269,10 @@ msgstr "No results found."
 msgid "No signature field found"
 msgstr "No signature field found"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "No signature required"
+msgstr "No signature required"
+
 #: apps/remix/app/components/general/document-signing/csc-recipient-blocked-page.tsx
 msgid "No signing credentials available"
 msgstr "No signing credentials available"
@@ -8716,6 +8752,10 @@ msgctxt "Original document (adjective)"
 msgid "Original"
 msgstr "Original"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Original document · SHA-256"
+msgstr "Original document · SHA-256"
+
 #: apps/remix/app/components/dialogs/template-use-dialog.tsx
 msgid "Otherwise, the document will be created as a draft."
 msgstr "Otherwise, the document will be created as a draft."
@@ -8777,6 +8817,10 @@ msgstr "Page {0} of {1}"
 #: apps/remix/app/components/general/pdf-viewer/pdf-viewer.tsx
 msgid "Page {pageNumber} of {numPages}"
 msgstr "Page {pageNumber} of {numPages}"
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Pages"
+msgstr "Pages"
 
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
 msgctxt "Subscription status"
@@ -9812,6 +9856,7 @@ msgstr "Reject Document"
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/constants/document.ts
 #: packages/lib/server-only/pdf/render-certificate.ts
+#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Rejected"
 msgstr "Rejected"
 
@@ -10018,10 +10063,6 @@ msgid "Requesting Organisation"
 msgstr "Requesting Organization"
 
 #: packages/lib/constants/document-auth.ts
-msgid "Require 2FA"
-msgstr "Require 2FA"
-
-#: packages/lib/constants/document-auth.ts
 msgid "Require account"
 msgstr "Require account"
 
@@ -10032,6 +10073,10 @@ msgstr "Require passkey"
 #: packages/lib/constants/document-auth.ts
 msgid "Require password"
 msgstr "Require password"
+
+#: packages/lib/constants/document-auth.ts
+msgid "Require verification code (email or authenticator app)"
+msgstr "Require verification code (email or authenticator app)"
 
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/checkbox-field.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/dropdown-field.tsx
@@ -10315,6 +10360,10 @@ msgstr "Save failed"
 msgid "Save Template"
 msgstr "Save Template"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Scan the code, or open the link below, to view the signed document and this certificate:"
+msgstr "Scan the code, or open the link below, to view the signed document and this certificate:"
+
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 msgid "Scriptia will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
 msgstr "Scriptia will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
@@ -10322,6 +10371,14 @@ msgstr "Scriptia will delete <0>all of your documents</0>, along with all of you
 #: apps/remix/app/routes/_authenticated+/admin+/unsealed-documents._index.tsx
 msgid "Seal job triggered"
 msgstr "Seal job triggered"
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Seal: PAdES digital signature"
+msgstr "Seal: PAdES digital signature"
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Seal: PAdES digital signature with a trusted timestamp (RFC 3161)"
+msgstr "Seal: PAdES digital signature with a trusted timestamp (RFC 3161)"
 
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
 msgid "Sealing job started"
@@ -10810,6 +10867,10 @@ msgstr "Sending..."
 msgid "Sent"
 msgstr "Sent"
 
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Sent by"
+msgstr "Sent by"
+
 #: apps/remix/app/components/general/organisation-usage-panel.tsx
 msgid "Sent this period"
 msgstr "Sent this period"
@@ -11095,7 +11156,6 @@ msgstr "Sign Up with OIDC"
 #: apps/remix/app/components/general/envelope-signing/envelope-signer-form.tsx
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
-#: packages/lib/server-only/pdf/render-certificate.ts
 #: packages/lib/utils/fields.ts
 #: packages/ui/primitives/document-flow/add-fields.tsx
 #: packages/ui/primitives/document-flow/types.ts
@@ -11163,9 +11223,12 @@ msgid "Signer"
 msgstr "Signer"
 
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
-#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Signer Events"
 msgstr "Signer Events"
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Signers"
+msgstr "Signers"
 
 #: packages/lib/constants/recipient-roles.ts
 msgctxt "Recipient role plural name"
@@ -11186,7 +11249,6 @@ msgid "Signing algorithm is not supported"
 msgstr "Signing algorithm is not supported"
 
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
-#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Signing Certificate"
 msgstr "Signing Certificate"
 
@@ -11195,7 +11257,6 @@ msgid "Signing certificate is invalid"
 msgstr "Signing certificate is invalid"
 
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
-#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Signing certificate provided by"
 msgstr "Signing certificate provided by"
 
@@ -13569,9 +13630,6 @@ msgstr "Ungroup"
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
-#: packages/lib/server-only/pdf/render-certificate.ts
-#: packages/lib/server-only/pdf/render-certificate.ts
-#: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -14078,6 +14136,10 @@ msgstr "Verify Now"
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Verify team email"
 msgstr "Verify team email"
+
+#: packages/lib/server-only/pdf/render-certificate.ts
+msgid "Verify this document"
+msgstr "Verify this document"
 
 #: apps/remix/app/components/general/verify-email-banner.tsx
 msgid "Verify your email address"

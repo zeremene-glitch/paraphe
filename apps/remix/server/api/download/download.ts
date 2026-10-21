@@ -3,6 +3,7 @@ import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { getEnvelopeById, getEnvelopeWhereInput } from '@documenso/lib/server-only/envelope/get-envelope-by-id';
 import { generateAuditLogPdf } from '@documenso/lib/server-only/pdf/generate-audit-log-pdf';
 import { generateCertificatePdf } from '@documenso/lib/server-only/pdf/generate-certificate-pdf';
+import { getOriginalDocumentDigests } from '@documenso/lib/server-only/pdf/get-original-document-digests';
 import { getApiTokenByToken } from '@documenso/lib/server-only/public-api/get-api-token-by-token';
 import { isDocumentCompleted } from '@documenso/lib/utils/document';
 import { buildTeamWhereQuery } from '@documenso/lib/utils/teams';
@@ -259,6 +260,11 @@ export const downloadRoute = new Hono<HonoEnv>()
               },
             },
             documentMeta: true,
+            envelopeItems: {
+              include: {
+                documentData: true,
+              },
+            },
             user: {
               select: {
                 email: true,
@@ -280,11 +286,17 @@ export const downloadRoute = new Hono<HonoEnv>()
           });
         }
 
+        const originalDocuments = await getOriginalDocumentDigests({
+          envelopeItems: envelope.envelopeItems,
+        });
+
         const certificatePdf = await generateCertificatePdf({
           envelope,
           recipients: envelope.recipients,
           fields: envelope.fields,
           language: envelope.documentMeta.language,
+          completedAt: envelope.completedAt,
+          originalDocuments,
           envelopeOwner: {
             email: envelope.user.email,
             name: envelope.user.name || '',
