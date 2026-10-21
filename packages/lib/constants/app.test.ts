@@ -7,16 +7,16 @@ describe('NEXT_PRIVATE_SIGNING_REASON', () => {
     vi.unstubAllEnvs();
   });
 
-  it('defaults to the Paraphe signing reason', () => {
+  it('defaults to the Scriptia signing reason', () => {
     vi.stubEnv('NEXT_PRIVATE_SIGNING_REASON', undefined);
 
-    expect(NEXT_PRIVATE_SIGNING_REASON()).toBe('Signed by Paraphe');
+    expect(NEXT_PRIVATE_SIGNING_REASON()).toBe('Signed by Scriptia');
   });
 
   it('uses the default for an empty signing reason', () => {
     vi.stubEnv('NEXT_PRIVATE_SIGNING_REASON', '');
 
-    expect(NEXT_PRIVATE_SIGNING_REASON()).toBe('Signed by Paraphe');
+    expect(NEXT_PRIVATE_SIGNING_REASON()).toBe('Signed by Scriptia');
   });
 
   it('uses the configured signing reason verbatim', () => {

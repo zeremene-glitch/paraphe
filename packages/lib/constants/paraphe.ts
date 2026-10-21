@@ -1,7 +1,7 @@
 /**
- * Paraphe MVP feature switches.
+ * Scriptia MVP feature switches.
  *
- * Paraphe ships a smaller product than upstream Documenso. Features that are out of
+ * Scriptia ships a smaller product than upstream Documenso. Features that are out of
  * scope for the MVP are hidden from navigation and menus here, in one place, so they
  * can be switched back on later and upstream merges stay simple.
  *

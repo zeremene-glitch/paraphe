@@ -76,7 +76,7 @@ export const DocumentCertificateQRView = ({
 
               <DialogDescription>
                 <Trans>
-                  This document is available in your Paraphe account. You can view more details, recipients, and audit
+                  This document is available in your Scriptia account. You can view more details, recipients, and audit
                   logs there.
                 </Trans>
               </DialogDescription>

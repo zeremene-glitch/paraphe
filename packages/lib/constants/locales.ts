@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// Paraphe: the MVP interface is English only. Upstream list:
+// Scriptia: the MVP interface is English only. Upstream list:
 // ['de', 'en', 'fr', 'es', 'it', 'nl', 'pl', 'pt-BR', 'ja', 'ko', 'zh']
 export const SUPPORTED_LANGUAGE_CODES = ['en'] as const;
 

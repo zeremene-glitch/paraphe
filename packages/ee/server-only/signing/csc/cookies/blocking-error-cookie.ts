@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+// SPDX-License-Identifier: AGPL-3.0-only — Scriptia replacement stub (original commercial code removed).
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import type { Context } from 'hono';
 
@@ -13,7 +13,7 @@ type SetCscBlockingErrorCookieOptions = {
 };
 
 export const setCscBlockingErrorCookie = async (_options: SetCscBlockingErrorCookieOptions): Promise<void> => {
-  throw new AppError(AppErrorCode.NOT_SETUP, { message: 'CSC signing is not available in Paraphe' });
+  throw new AppError(AppErrorCode.NOT_SETUP, { message: 'CSC signing is not available in Scriptia' });
 };
 
 /** No CSC cookie can exist, so there is never a blocking error. */

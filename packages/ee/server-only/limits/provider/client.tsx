@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+// SPDX-License-Identifier: AGPL-3.0-only — Scriptia replacement stub (original commercial code removed).
 import { createContext, useContext, useMemo } from 'react';
 
 import { DEFAULT_MINIMUM_ENVELOPE_ITEM_COUNT, PAID_PLAN_LIMITS } from '../constants';
@@ -26,7 +26,7 @@ export type LimitsProviderProps = {
 };
 
 /**
- * Paraphe has no billing: limits are always unlimited, so nothing is fetched
+ * Scriptia has no billing: limits are always unlimited, so nothing is fetched
  * and `refreshLimits` is a no-op. The server-provided item cap is honoured.
  */
 export const LimitsProvider = ({ initialValue, children }: LimitsProviderProps) => {

@@ -1,4 +1,4 @@
-# Paraphe on a single server (Oracle Cloud Always Free, Ubuntu, arm64).
+# Scriptia on a single server (Oracle Cloud Always Free, Ubuntu, arm64).
 # Run from this folder: docker compose up -d --build
 # Secrets live in ./.env and ./secrets/ (both created by setup.sh, never committed).
 

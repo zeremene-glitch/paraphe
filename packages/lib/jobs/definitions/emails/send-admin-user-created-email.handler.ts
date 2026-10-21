@@ -60,7 +60,7 @@ export const run = async ({ payload, io }: { payload: TSendAdminUserCreatedEmail
       name: user.name || '',
     },
     from: DOCUMENSO_INTERNAL_EMAIL,
-    subject: i18n._(msg`Welcome to Paraphe`),
+    subject: i18n._(msg`Welcome to Scriptia`),
     html,
     text,
   });

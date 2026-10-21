@@ -15,11 +15,11 @@ export const TemplateAdminUserCreated = ({ resetPasswordLink, assetBaseUrl }: Te
 
       <Section className="flex-row items-center justify-center">
         <Text className="mx-auto mb-0 max-w-[80%] text-center font-semibold text-foreground text-lg">
-          <Trans>Welcome to Paraphe!</Trans>
+          <Trans>Welcome to Scriptia!</Trans>
         </Text>
 
         <Text className="my-1 text-center text-base text-muted-foreground">
-          <Trans>An administrator has created a Paraphe account for you.</Trans>
+          <Trans>An administrator has created a Scriptia account for you.</Trans>
         </Text>
 
         <Text className="my-1 text-center text-base text-muted-foreground">

@@ -3,11 +3,11 @@ import { i18n, type MessageDescriptor } from '@lingui/core';
 
 export const appMetaTags = (title?: MessageDescriptor) => {
   const description =
-    'Paraphe lets you send documents for electronic signature, sign them in the browser and keep a sealed copy with a full audit trail.';
+    'Scriptia lets you send documents for electronic signature, sign them in the browser and keep a sealed copy with a full audit trail.';
 
   return [
     {
-      title: title ? `${i18n._(title)} - Paraphe` : 'Paraphe',
+      title: title ? `${i18n._(title)} - Scriptia` : 'Scriptia',
     },
     {
       name: 'description',
@@ -16,11 +16,11 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     {
       name: 'keywords',
       content:
-        'Paraphe, electronic signature, e-signature, sign documents online, document signing, audit trail, open source',
+        'Scriptia, electronic signature, e-signature, sign documents online, document signing, audit trail, open source',
     },
     {
       name: 'author',
-      content: 'Paraphe',
+      content: 'Scriptia',
     },
     {
       name: 'robots',
@@ -28,7 +28,7 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       property: 'og:title',
-      content: 'Paraphe - Electronic signatures',
+      content: 'Scriptia - Electronic signatures',
     },
     {
       property: 'og:description',

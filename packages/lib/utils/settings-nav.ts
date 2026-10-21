@@ -81,7 +81,7 @@ export const getSettingsNavGroups = ({
 
   const canManageTeam = team !== null && canExecuteTeamAction('MANAGE_TEAM', team.currentTeamRole);
 
-  // Paraphe: hide organisation settings that are out of scope for the MVP.
+  // Scriptia: hide organisation settings that are out of scope for the MVP.
   const parapheHiddenOrgItems = new Set<string>([...(PARAPHE_FEATURES.teams ? [] : ['teams', 'members', 'groups'])]);
 
   const orgGroup: SettingsNavGroup | null = canManageOrg
@@ -183,7 +183,7 @@ export const getSettingsNavGroups = ({
       }
     : null;
 
-  // Paraphe: hide team settings that are out of scope for the MVP.
+  // Scriptia: hide team settings that are out of scope for the MVP.
   const parapheHiddenTeamItems = new Set<string>([
     ...(PARAPHE_FEATURES.teams ? [] : ['members', 'groups']),
     ...(PARAPHE_FEATURES.publicProfile ? [] : ['public-profile']),

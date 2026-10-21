@@ -1,2 +1,2 @@
-// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+// SPDX-License-Identifier: AGPL-3.0-only — Scriptia replacement stub (original commercial code removed).
 export {};

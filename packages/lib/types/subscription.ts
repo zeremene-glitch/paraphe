@@ -107,7 +107,7 @@ export const SUBSCRIPTION_CLAIM_FEATURE_FLAGS: Record<
   },
   hidePoweredBy: {
     key: 'hidePoweredBy',
-    label: 'Hide Paraphe branding by',
+    label: 'Hide Scriptia branding by',
   },
   emailDomains: {
     key: 'emailDomains',

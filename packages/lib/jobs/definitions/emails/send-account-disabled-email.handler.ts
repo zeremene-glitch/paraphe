@@ -51,7 +51,7 @@ export const run = async ({ payload, io }: { payload: TSendAccountDisabledEmailJ
         name: user.name || '',
       },
       from: DOCUMENSO_INTERNAL_EMAIL,
-      subject: i18n._(msg`Your Paraphe account has been disabled`),
+      subject: i18n._(msg`Your Scriptia account has been disabled`),
       html,
       text,
     });

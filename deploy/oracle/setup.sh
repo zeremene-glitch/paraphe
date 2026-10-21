@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Paraphe server setup for Oracle Cloud (Ubuntu 24.04, arm64).
+# Scriptia server setup for Oracle Cloud (Ubuntu 24.04, arm64).
 # Safe to run again: it only creates secrets that are missing, then rebuilds and restarts.
 #
 #   sudo bash deploy/oracle/setup.sh [domain]
@@ -68,7 +68,7 @@ NEXT_PRIVATE_SMTP_TRANSPORT=smtp-auth
 NEXT_PRIVATE_SMTP_HOST=mail
 NEXT_PRIVATE_SMTP_PORT=1025
 NEXT_PRIVATE_SMTP_UNSAFE_IGNORE_TLS=true
-NEXT_PRIVATE_SMTP_FROM_NAME=Paraphe
+NEXT_PRIVATE_SMTP_FROM_NAME=Scriptia
 NEXT_PRIVATE_SMTP_FROM_ADDRESS=noreply@$DOMAIN
 EOF
   chmod 600 .env
@@ -79,7 +79,7 @@ if [ ! -f secrets/cert.p12 ]; then
   PASS="$(grep -E '^NEXT_PRIVATE_SIGNING_PASSPHRASE=' .env | cut -d= -f2-)"
   openssl req -x509 -newkey rsa:2048 -nodes -days 1095 \
     -keyout secrets/key.pem -out secrets/cert.pem \
-    -subj "/CN=Paraphe Signing/O=Paraphe/C=PT" 2>/dev/null
+    -subj "/CN=Scriptia Signing/O=Scriptia/C=PT" 2>/dev/null
   openssl pkcs12 -export -out secrets/cert.p12 -inkey secrets/key.pem -in secrets/cert.pem \
     -passout "pass:$PASS" -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -macalg sha1
   rm -f secrets/key.pem
@@ -89,7 +89,7 @@ if [ ! -f secrets/cert.p12 ]; then
 fi
 
 # 6. Build and start
-say 'Building and starting Paraphe (the first build takes 10-20 minutes)'
+say 'Building and starting Scriptia (the first build takes 10-20 minutes)'
 docker compose up -d --build
 
-say "Done. Paraphe will answer at https://$DOMAIN in about a minute."
+say "Done. Scriptia will answer at https://$DOMAIN in about a minute."

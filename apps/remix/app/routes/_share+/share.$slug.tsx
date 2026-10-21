@@ -12,15 +12,15 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
   }
 
   return [
-    { title: 'Paraphe - Share' },
-    { description: 'I just signed a document with Paraphe.' },
+    { title: 'Scriptia - Share' },
+    { description: 'I just signed a document with Scriptia.' },
     {
       property: 'og:title',
-      content: 'Paraphe - Electronic signatures',
+      content: 'Scriptia - Electronic signatures',
     },
     {
       property: 'og:description',
-      content: 'I just signed a document with Paraphe.',
+      content: 'I just signed a document with Scriptia.',
     },
     {
       property: 'og:type',
@@ -40,7 +40,7 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     },
     {
       name: 'twitter:description',
-      content: 'I just signed a document with Paraphe.',
+      content: 'I just signed a document with Scriptia.',
     },
   ];
 }

@@ -57,7 +57,7 @@ export const sendForgotPassword = async ({ userId }: SendForgotPasswordOptions) 
       name: user.name || '',
     },
     from: {
-      name: env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'Paraphe',
+      name: env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'Scriptia',
       address: env('NEXT_PRIVATE_SMTP_FROM_ADDRESS') || 'noreply@documenso.com',
     },
     subject: i18n._(msg`Forgot Password?`),

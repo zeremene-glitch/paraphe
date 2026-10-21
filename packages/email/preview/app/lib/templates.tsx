@@ -258,7 +258,7 @@ export const templates: Record<string, TemplateDefinition> = {
     component: OrganisationInviteEmailTemplate,
     fields: {
       senderName: { type: 'text', label: 'Sender name', default: 'Lucas Smith' },
-      organisationName: { type: 'text', label: 'Organisation name', default: 'Paraphe' },
+      organisationName: { type: 'text', label: 'Organisation name', default: 'Scriptia' },
     },
   },
   'organisation-join': {
@@ -267,7 +267,7 @@ export const templates: Record<string, TemplateDefinition> = {
     component: OrganisationJoinEmailTemplate,
     fields: {
       memberName: { type: 'text', label: 'Member name', default: 'Lucas Smith' },
-      organisationName: { type: 'text', label: 'Organisation name', default: 'Paraphe' },
+      organisationName: { type: 'text', label: 'Organisation name', default: 'Scriptia' },
     },
   },
   'organisation-leave': {
@@ -276,7 +276,7 @@ export const templates: Record<string, TemplateDefinition> = {
     component: OrganisationLeaveEmailTemplate,
     fields: {
       memberName: { type: 'text', label: 'Member name', default: 'Lucas Smith' },
-      organisationName: { type: 'text', label: 'Organisation name', default: 'Paraphe' },
+      organisationName: { type: 'text', label: 'Organisation name', default: 'Scriptia' },
     },
   },
   'organisation-delete': {
@@ -284,7 +284,7 @@ export const templates: Record<string, TemplateDefinition> = {
     group: 'Organisations',
     component: OrganisationDeleteEmailTemplate,
     fields: {
-      organisationName: { type: 'text', label: 'Organisation name', default: 'Paraphe' },
+      organisationName: { type: 'text', label: 'Organisation name', default: 'Scriptia' },
     },
   },
   'organisation-limit-alert': {
@@ -292,7 +292,7 @@ export const templates: Record<string, TemplateDefinition> = {
     group: 'Organisations',
     component: OrganisationLimitAlertEmailTemplate,
     fields: {
-      organisationName: { type: 'text', label: 'Organisation name', default: 'Paraphe' },
+      organisationName: { type: 'text', label: 'Organisation name', default: 'Scriptia' },
     },
   },
   'organisation-account-link-confirmation': {
@@ -300,7 +300,7 @@ export const templates: Record<string, TemplateDefinition> = {
     group: 'Organisations',
     component: OrganisationAccountLinkConfirmationTemplate,
     fields: {
-      organisationName: { type: 'text', label: 'Organisation name', default: 'Paraphe' },
+      organisationName: { type: 'text', label: 'Organisation name', default: 'Scriptia' },
     },
   },
 
@@ -310,7 +310,7 @@ export const templates: Record<string, TemplateDefinition> = {
     group: 'Teams',
     component: ConfirmTeamEmailTemplate,
     fields: {
-      teamName: { type: 'text', label: 'Team name', default: 'Paraphe' },
+      teamName: { type: 'text', label: 'Team name', default: 'Scriptia' },
     },
   },
   'team-delete': {
@@ -324,7 +324,7 @@ export const templates: Record<string, TemplateDefinition> = {
     group: 'Teams',
     component: TeamEmailRemovedTemplate,
     fields: {
-      teamName: { type: 'text', label: 'Team name', default: 'Paraphe' },
+      teamName: { type: 'text', label: 'Team name', default: 'Scriptia' },
       teamEmail: { type: 'text', label: 'Team email', default: 'team@documenso.com' },
     },
   },

@@ -127,7 +127,9 @@ export const OrganisationBillingBanner = () => {
                 </DialogTitle>
 
                 <DialogDescription>
-                  <Trans>Your plan is no longer valid. Please subscribe to a new plan to continue using Paraphe.</Trans>
+                  <Trans>
+                    Your plan is no longer valid. Please subscribe to a new plan to continue using Scriptia.
+                  </Trans>
                 </DialogDescription>
               </DialogHeader>
 

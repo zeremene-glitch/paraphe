@@ -1,7 +1,7 @@
-// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+// SPDX-License-Identifier: AGPL-3.0-only — Scriptia replacement stub (original commercial code removed).
 import type { TLimitsSchema } from './schema';
 
-// Paraphe has no plans: every limit set is unlimited.
+// Scriptia has no plans: every limit set is unlimited.
 export const FREE_PLAN_LIMITS: TLimitsSchema = {
   documents: Infinity,
   recipients: Infinity,

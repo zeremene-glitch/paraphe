@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+// SPDX-License-Identifier: AGPL-3.0-only — Scriptia replacement stub (original commercial code removed).
 import { prisma } from '@documenso/prisma';
 
 import { SELFHOSTED_PLAN_LIMITS } from './constants';
@@ -11,7 +11,7 @@ export type GetServerLimitsOptions = {
 };
 
 /**
- * Paraphe has no billing, so quotas are always unlimited. Only the per-envelope
+ * Scriptia has no billing, so quotas are always unlimited. Only the per-envelope
  * item cap comes from the organisation claim.
  */
 export const getServerLimits = async ({ userId, teamId }: GetServerLimitsOptions): Promise<TLimitsResponseSchema> => {

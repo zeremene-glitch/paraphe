@@ -31,7 +31,7 @@ export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterP
 
       {isDocument && !branding.brandingHidePoweredBy && (
         <Text className="my-4 text-base text-muted-foreground">
-          <Trans>This document was sent using Paraphe.</Trans>
+          <Trans>This document was sent using Scriptia.</Trans>
         </Text>
       )}
 
@@ -56,7 +56,7 @@ export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterP
         </Text>
       )}
 
-      {!branding.brandingEnabled && <Text className="my-8 text-muted-foreground text-sm">Paraphe</Text>}
+      {!branding.brandingEnabled && <Text className="my-8 text-muted-foreground text-sm">Scriptia</Text>}
     </Section>
   );
 };

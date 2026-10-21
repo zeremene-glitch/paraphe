@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only — Paraphe replacement stub (original commercial code removed).
+// SPDX-License-Identifier: AGPL-3.0-only — Scriptia replacement stub (original commercial code removed).
 export const ERROR_CODES: Record<string, string> = {
   UNAUTHORIZED: 'You must be logged in to access this resource',
   USER_FETCH_FAILED: 'An error occurred while fetching your user account',

@@ -25,7 +25,7 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
   const previewText =
     type === 'create'
       ? msg`A request has been made to create an account for you`
-      : msg`A request has been made to link your Paraphe account`;
+      : msg`A request has been made to link your Scriptia account`;
 
   return (
     <Html>
@@ -43,7 +43,11 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
 
             <Section className="p-2 text-muted-foreground">
               <Text className="text-center font-medium text-foreground text-lg">
-                {type === 'create' ? <Trans>Account creation request</Trans> : <Trans>Link your Paraphe account</Trans>}
+                {type === 'create' ? (
+                  <Trans>Account creation request</Trans>
+                ) : (
+                  <Trans>Link your Scriptia account</Trans>
+                )}
               </Text>
 
               <Text className="text-center text-base">
@@ -54,7 +58,7 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
                   </Trans>
                 ) : (
                   <Trans>
-                    <span className="font-bold">{organisationName}</span> has requested to link your current Paraphe
+                    <span className="font-bold">{organisationName}</span> has requested to link your current Scriptia
                     account to their organisation.
                   </Trans>
                 )}
@@ -83,7 +87,7 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
 
                 <Text className="mt-2 text-sm">
                   <Trans>
-                    You can unlink your account at any time in your security settings on Paraphe{' '}
+                    You can unlink your account at any time in your security settings on Scriptia{' '}
                     <Link href={`${assetBaseUrl}/settings/security/linked-accounts`}>here.</Link>
                   </Trans>
                 </Text>
