@@ -5,7 +5,7 @@
 #   sudo bash deploy/oracle/setup.sh [domain]
 #
 # Without a domain it uses a free one based on the server's public IP:
-# paraphe-1-2-3-4.sslip.io
+# scriptia-1-2-3-4.sslip.io
 
 set -euo pipefail
 
@@ -46,12 +46,12 @@ if [ -z "$DOMAIN" ] && [ -f .env ]; then
 fi
 if [ -z "$DOMAIN" ]; then
   IP="$(curl -fsS https://ifconfig.me || curl -fsS https://api.ipify.org)"
-  DOMAIN="paraphe-${IP//./-}.sslip.io"
+  DOMAIN="scriptia-${IP//./-}.sslip.io"
 fi
 say "Domain: https://$DOMAIN"
 
 # 5. Secrets (created once, kept on later runs)
-mkdir -p secrets
+mkdir -p secrets caddy.d
 chmod 700 secrets
 if [ ! -f .env ]; then
   say 'Creating .env with new secrets'

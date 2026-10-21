@@ -61,6 +61,7 @@ services:
       - PARAPHE_DOMAIN=${PARAPHE_DOMAIN:?run setup.sh first}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy.d:/etc/caddy/extra:ro
       - caddy_data:/data
       - caddy_config:/config
 

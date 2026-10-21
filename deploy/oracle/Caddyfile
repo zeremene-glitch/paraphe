@@ -3,3 +3,6 @@
 	encode zstd gzip
 	reverse_proxy app:3000
 }
+
+# Server-only extras (e.g. redirects from old addresses) live in ./caddy.d/*.caddy (not in git).
+import /etc/caddy/extra/*.caddy
