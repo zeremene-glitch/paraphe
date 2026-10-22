@@ -26,7 +26,7 @@ const LANGUAGE_LABELS: Record<string, string> = {
 };
 
 const DEFAULT_COLORS = {
-  primary: '#a2e771',
+  primary: '#2457ff',
   primaryForeground: '#162c07',
   background: '#ffffff',
   foreground: '#0f172a',

@@ -79,3 +79,4 @@ tmp/
 deploy/oracle/.env
 deploy/oracle/secrets/
 deploy/oracle/caddy.d/
+deploy/oracle/backups/

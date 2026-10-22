@@ -11,7 +11,7 @@ const DEMO_BRANDS = [
     name: 'Scriptia',
     letter: 'D',
     domain: 'noreply@app.documenso.com',
-    accent: '#A2E771',
+    accent: '#2457FF',
     ink: '#162C07',
     tint: '#F2FBEA',
     sheen: 'rgba(162, 231, 113, 0.32)',

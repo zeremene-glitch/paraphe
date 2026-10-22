@@ -92,7 +92,38 @@ if [ ! -f secrets/cert.p12 ]; then
   chmod 400 secrets/cert.p12
 fi
 
-# 6. Build and start
+# 6. Daily database backup at 03:15 UTC (see backup.sh)
+mkdir -p backups
+chmod 700 backups
+if [ ! -f /etc/systemd/system/scriptia-backup.timer ]; then
+  say 'Installing the daily backup timer'
+  cat > /etc/systemd/system/scriptia-backup.service <<UNIT
+[Unit]
+Description=Scriptia database backup
+
+[Service]
+Type=oneshot
+WorkingDirectory=$HERE
+ExecStart=/bin/bash $HERE/backup.sh
+StandardOutput=append:$HERE/backups/backup.log
+StandardError=append:$HERE/backups/backup.log
+UNIT
+  cat > /etc/systemd/system/scriptia-backup.timer <<UNIT
+[Unit]
+Description=Daily Scriptia database backup
+
+[Timer]
+OnCalendar=*-*-* 03:15:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+UNIT
+  systemctl daemon-reload
+  systemctl enable --now scriptia-backup.timer
+fi
+
+# 7. Build and start
 say 'Building and starting Scriptia (the first build takes 10-20 minutes)'
 docker compose up -d --build
 

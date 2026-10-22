@@ -25,7 +25,7 @@ export const UnifiedSettingsSidebar = ({ groups, currentOrgUrl, currentTeamUrl }
         <div className="p-4">
           <SidebarGroup
             heading={<Trans>Organisation Settings</Trans>}
-            activeBgClassName="bg-[#F1FBEA] text-gray-900 hover:bg-[#F1FBEA] hover:text-gray-900 dark:bg-[#1C2515] dark:text-[#F1FBEA] dark:hover:bg-[#1C2515] dark:hover:text-[#F1FBEA]"
+            activeBgClassName="bg-[#EAF2FF] text-gray-900 hover:bg-[#EAF2FF] hover:text-gray-900 dark:bg-[#1A2440] dark:text-[#CFE0FF] dark:hover:bg-[#1A2440] dark:hover:text-[#CFE0FF]"
             switcher={<SettingsOrgSwitcher currentOrgUrl={currentOrgUrl} />}
             items={groups.organisation?.items ?? []}
             scope="organisation"
@@ -48,7 +48,7 @@ export const UnifiedSettingsSidebar = ({ groups, currentOrgUrl, currentTeamUrl }
         <div className="border-t p-4">
           <SidebarGroup
             heading={<Trans>Team Settings</Trans>}
-            activeBgClassName="bg-[#F1FBEA] text-gray-900 hover:bg-[#F1FBEA] hover:text-gray-900 dark:bg-[#1C2515] dark:text-[#F1FBEA] dark:hover:bg-[#1C2515] dark:hover:text-[#F1FBEA]"
+            activeBgClassName="bg-[#EAF2FF] text-gray-900 hover:bg-[#EAF2FF] hover:text-gray-900 dark:bg-[#1A2440] dark:text-[#CFE0FF] dark:hover:bg-[#1A2440] dark:hover:text-[#CFE0FF]"
             switcher={<SettingsTeamSwitcher currentOrgUrl={currentOrgUrl} currentTeamUrl={currentTeamUrl} />}
             items={groups.team.items}
             scope={groups.team.scope}
@@ -59,7 +59,7 @@ export const UnifiedSettingsSidebar = ({ groups, currentOrgUrl, currentTeamUrl }
       <div className={cn('p-4', currentOrgUrl && 'border-t')}>
         <SidebarGroup
           heading={<Trans>Account Settings</Trans>}
-          activeBgClassName="bg-[#F1FBEA] text-gray-900 hover:bg-[#F1FBEA] hover:text-gray-900 dark:bg-[#1C2515] dark:text-[#F1FBEA] dark:hover:bg-[#1C2515] dark:hover:text-[#F1FBEA]"
+          activeBgClassName="bg-[#EAF2FF] text-gray-900 hover:bg-[#EAF2FF] hover:text-gray-900 dark:bg-[#1A2440] dark:text-[#CFE0FF] dark:hover:bg-[#1A2440] dark:hover:text-[#CFE0FF]"
           items={groups.account.items}
           scope={groups.account.scope}
         />
