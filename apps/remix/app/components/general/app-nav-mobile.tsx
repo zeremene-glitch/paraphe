@@ -63,6 +63,10 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
           href: '/help',
           text: t`Help`,
         },
+        {
+          href: '/help#faq',
+          text: t`FAQ`,
+        },
       ];
     }
 
@@ -88,6 +92,10 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       {
         href: '/help',
         text: t`Help`,
+      },
+      {
+        href: '/help#faq',
+        text: t`FAQ`,
       },
     ];
   }, [currentTeam, currentOrganisation, organisations, t]);

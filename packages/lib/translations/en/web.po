@@ -6251,6 +6251,13 @@ msgstr "Failed: {failedCount}"
 msgid "Fair use limit exceeded"
 msgstr "Fair use limit exceeded"
 
+#: apps/remix/app/components/general/app-nav-desktop.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/components/general/public-legal-links.tsx
+msgid "FAQ"
+msgstr "FAQ"
+
 #: apps/remix/app/components/forms/subscription-claim-form.tsx
 #: apps/remix/app/components/tables/admin-claims-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -6662,6 +6669,7 @@ msgstr "Having an assistant as the last signer means they will be unable to take
 msgid "Height:"
 msgstr "Height:"
 
+#: apps/remix/app/components/general/app-nav-desktop.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
 #: apps/remix/app/components/general/org-menu-switcher.tsx

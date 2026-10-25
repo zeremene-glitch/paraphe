@@ -58,6 +58,14 @@ export const AppNavDesktop = ({ className, setIsCommandMenuOpen, ...props }: App
             },
           ]
         : []),
+      {
+        href: '/help',
+        label: msg`Help`,
+      },
+      {
+        href: '/help#faq',
+        label: msg`FAQ`,
+      },
     ];
   }, [currentTeam, organisations]);
 

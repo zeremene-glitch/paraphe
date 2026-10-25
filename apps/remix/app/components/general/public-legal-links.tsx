@@ -75,6 +75,7 @@ const getPublicLegalLinks = () => {
 
   const links = [
     { label: msg`Help`, href: '/help' },
+    { label: msg`FAQ`, href: '/help#faq' },
     termsUrl ? { label: msg`Terms of Service`, href: termsUrl } : null,
     privacyUrl ? { label: msg`Privacy Policy`, href: privacyUrl } : null,
     imprintUrl ? { label: msg`Imprint`, href: imprintUrl } : null,
