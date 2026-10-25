@@ -9,6 +9,8 @@ import { createDocumentData } from '@documenso/lib/server-only/document-data/cre
 import { createEnvelope } from '@documenso/lib/server-only/envelope/create-envelope';
 import { duplicateEnvelope } from '@documenso/lib/server-only/envelope/duplicate-envelope';
 import { updateEnvelope } from '@documenso/lib/server-only/envelope/update-envelope';
+import { extractPdfPlaceholders } from '@documenso/lib/server-only/pdf/auto-place-fields';
+import { normalizePdf } from '@documenso/lib/server-only/pdf/normalize-pdf';
 import {
   createDocumentFromDirectTemplate,
   ZCreateDocumentFromDirectTemplateResponseSchema,
@@ -237,11 +239,16 @@ export const templateRouter = router({
 
       const pdf = await convertToPdf(file, ctx.logger);
 
+      // Scriptia: read {{signature, r1}} style placeholders, as the envelope upload does.
+      const { cleanedPdf, placeholders } = await extractPdfPlaceholders(
+        await normalizePdf(pdf, { flattenForm: false }),
+      );
+
       const { id: templateDocumentDataId } = await putNormalizedPdfFileServerSide(
         {
           name: file.name,
           type: 'application/pdf',
-          arrayBuffer: async () => Promise.resolve(pdf),
+          arrayBuffer: async () => Promise.resolve(cleanedPdf),
         },
         {
           flattenForm: false,
@@ -264,6 +271,7 @@ export const templateRouter = router({
           envelopeItems: [
             {
               documentDataId: templateDocumentDataId,
+              placeholders,
             },
           ],
           folderId,

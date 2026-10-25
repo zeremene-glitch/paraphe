@@ -194,6 +194,76 @@ export const extractPdfPlaceholders = async (
   return { cleanedPdf, placeholders };
 };
 
+const ROW_TOLERANCE = 2;
+const MAX_ROW_PITCH = 80;
+const COLUMN_GAP = 6;
+const ROW_GAP = 8;
+const MAX_FIELD_HEIGHT = 60;
+const MAX_LONE_WIDTH = 180;
+
+/**
+ * Scriptia: grow each placeholder from the size of its text to the space it sits in.
+ *
+ * Placeholders on the same line are treated as table columns: a field stretches to the
+ * next placeholder on its right, and down to the next row of placeholders. A placeholder
+ * with no neighbours gets a sensible minimum size for its field type.
+ */
+export const fitPlaceholdersToLayout = (placeholders: PlaceholderInfo[]): PlaceholderInfo[] => {
+  const byPage = new Map<number, PlaceholderInfo[]>();
+
+  for (const p of placeholders) {
+    byPage.set(p.page, [...(byPage.get(p.page) ?? []), p]);
+  }
+
+  const fitted = new Map<PlaceholderInfo, PlaceholderInfo>();
+
+  for (const pagePlaceholders of byPage.values()) {
+    const minX = Math.min(...pagePlaceholders.map((p) => p.x));
+
+    // Group into rows by their top edge.
+    const rows: PlaceholderInfo[][] = [];
+
+    for (const p of [...pagePlaceholders].sort((a, b) => a.y - b.y)) {
+      const row = rows.find((r) => Math.abs(r[0].y - p.y) <= ROW_TOLERANCE);
+
+      if (row) {
+        row.push(p);
+      } else {
+        rows.push([p]);
+      }
+    }
+
+    rows.forEach((row, rowIndex) => {
+      const below = rows[rowIndex + 1]?.[0].y - row[0].y;
+      const above = row[0].y - rows[rowIndex - 1]?.[0].y;
+      const pitch = [below, above].find((d) => d > 0 && d <= MAX_ROW_PITCH);
+
+      row.sort((a, b) => a.x - b.x);
+
+      row.forEach((p, columnIndex) => {
+        const next = row[columnIndex + 1];
+        const isSignature = p.fieldAndMeta.type === 'SIGNATURE' || p.fieldAndMeta.type === 'FREE_SIGNATURE';
+
+        const width = next
+          ? next.x - p.x - COLUMN_GAP
+          : Math.min(p.pageWidth - minX - p.x, row.length > 1 ? Infinity : MAX_LONE_WIDTH);
+
+        const height = pitch ? Math.min(pitch - ROW_GAP, MAX_FIELD_HEIGHT) : isSignature ? 36 : 16;
+
+        fitted.set(p, {
+          ...p,
+          x: p.x - 2,
+          y: p.y - 3,
+          width: Math.max(p.width, width),
+          height: Math.max(p.height, height),
+        });
+      });
+    });
+  }
+
+  return placeholders.map((p) => fitted.get(p) ?? p);
+};
+
 /**
  * Convert pre-extracted PlaceholderInfo[] to field creation inputs.
  *
@@ -205,7 +275,7 @@ export const convertPlaceholdersToFieldInputs = (
   recipientResolver: (recipientPlaceholder: string, placeholder: string) => Pick<Recipient, 'id'>,
   envelopeItemId?: string,
 ): FieldToCreate[] => {
-  return placeholders.map((p) => {
+  return fitPlaceholdersToLayout(placeholders).map((p) => {
     const xPercent = (p.x / p.pageWidth) * 100;
     const yPercent = (p.y / p.pageHeight) * 100;
     const widthPercent = (p.width / p.pageWidth) * 100;
