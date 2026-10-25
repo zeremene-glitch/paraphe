@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { isRouteErrorResponse, Link, Outlet } from 'react-router';
 import { Header as AuthenticatedHeader } from '~/components/general/app-header';
 import { GenericErrorLayout } from '~/components/general/generic-error-layout';
+import { useIsSignOnDevice } from '~/utils/sign-on-device';
 import type { Route } from './+types/_layout';
 
 export function meta() {
@@ -27,6 +28,7 @@ export function meta() {
  */
 export default function RecipientLayout({ matches }: Route.ComponentProps) {
   const { sessionData } = useOptionalSession();
+  const isSignOnDevice = useIsSignOnDevice();
 
   // Hide the header for signing routes.
   const hideHeader = matches.some(
@@ -36,7 +38,7 @@ export default function RecipientLayout({ matches }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen">
-      {!hideHeader && sessionData?.user && <AuthenticatedHeader />}
+      {!hideHeader && !isSignOnDevice && sessionData?.user && <AuthenticatedHeader />}
 
       <main
         className={cn({

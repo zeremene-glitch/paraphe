@@ -165,6 +165,12 @@ const FAQS: Faq[] = [
   },
   {
     group: 'Signing',
+    question: 'Can several people sign on the same tablet?',
+    answer:
+      'Yes. Send the document, then open it on the tablet and click Sign on this device. Each person taps their name, signs, and the tablet returns to the list for the next person. People who are not there can still sign later from their email.',
+  },
+  {
+    group: 'Signing',
     question: 'Can I sign on my phone?',
     answer: 'Yes. Scriptia works in any modern browser on phones, tablets and computers. Nothing to install.',
   },

@@ -20,6 +20,7 @@ import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { DocumentStatus, FieldType, RecipientRole } from '@prisma/client';
 import { CheckCircle2, Clock8, DownloadIcon, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { match } from 'ts-pattern';
 
@@ -28,6 +29,7 @@ import { ClaimAccount } from '~/components/general/claim-account';
 import { DocumentSigningAuthPageView } from '~/components/general/document-signing/document-signing-auth-page';
 import { RecipientBranding } from '~/components/general/recipient-branding';
 import { useCspNonce } from '~/utils/nonce';
+import { getSignOnDeviceReturnPath } from '~/utils/sign-on-device';
 
 import type { Route } from './+types/complete';
 
@@ -109,9 +111,32 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
   const user = sessionData?.user;
   const cspNonce = useCspNonce();
 
+  // Scriptia: on a shared tablet ("Sign on this device"), go back to the list for the next person.
+  const [deviceReturnPath, setDeviceReturnPath] = useState<string | null>(null);
+  const [secondsLeft, setSecondsLeft] = useState(5);
+
+  useEffect(() => {
+    setDeviceReturnPath(getSignOnDeviceReturnPath());
+  }, []);
+
+  useEffect(() => {
+    if (!deviceReturnPath) {
+      return;
+    }
+
+    if (secondsLeft <= 0) {
+      window.location.assign(deviceReturnPath);
+      return;
+    }
+
+    const timer = setTimeout(() => setSecondsLeft((seconds) => seconds - 1), 1000);
+
+    return () => clearTimeout(timer);
+  }, [deviceReturnPath, secondsLeft]);
+
   const {
     isDocumentAccessValid,
-    canSignUp,
+    canSignUp: canSignUpForAccount,
     recipientName,
     signatures,
     document,
@@ -120,6 +145,8 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
     returnToHomePath,
     branding,
   } = loaderData;
+
+  const canSignUp = canSignUpForAccount && !deviceReturnPath;
 
   // Poll signing status every few seconds
   const { data: signingStatusData } = trpc.envelope.signingStatus.useQuery(
@@ -270,7 +297,15 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
                 />
               )}
 
-              {user && (
+              {deviceReturnPath && (
+                <Button asChild size="lg">
+                  <a href={deviceReturnPath}>
+                    <Trans>Next person ({secondsLeft})</Trans>
+                  </a>
+                </Button>
+              )}
+
+              {user && !deviceReturnPath && (
                 <Button asChild>
                   <Link to={returnToHomePath}>
                     <Trans>Go Back Home</Trans>

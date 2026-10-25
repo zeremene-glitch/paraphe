@@ -50,6 +50,7 @@ import { DocumentSigningSenderDisabledPage } from '~/components/general/document
 import { EnvelopeSigningProvider } from '~/components/general/document-signing/envelope-signing-provider';
 import { RecipientBranding } from '~/components/general/recipient-branding';
 import { useCspNonce } from '~/utils/nonce';
+import { useIsSignOnDevice } from '~/utils/sign-on-device';
 import { superLoaderJson, useSuperLoaderData } from '~/utils/super-json-loader';
 
 import type { Route } from './+types/_index';
@@ -423,6 +424,7 @@ export default function SigningPage() {
 
 const SigningPageV1 = ({ data }: { data: Awaited<ReturnType<typeof handleV1Loader>> }) => {
   const { sessionData } = useOptionalSession();
+  const isSignOnDevice = useIsSignOnDevice();
 
   const user = sessionData?.user;
 
@@ -501,7 +503,7 @@ const SigningPageV1 = ({ data }: { data: Awaited<ReturnType<typeof handleV1Loade
       drawSignatureEnabled={document.documentMeta?.drawSignatureEnabled}
     >
       <DocumentSigningAuthProvider documentAuthOptions={document.authOptions} recipient={recipient} user={user}>
-        {sessionData?.user && <AuthenticatedHeader />}
+        {sessionData?.user && !isSignOnDevice && <AuthenticatedHeader />}
 
         <div className="mt-8 mb-8 px-4 md:mt-12 md:mb-12 md:px-8">
           <DocumentSigningPageViewV1

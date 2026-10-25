@@ -483,6 +483,10 @@ msgstr "{maximumEnvelopeItemCount, plural, one {You cannot upload more than # it
 msgid "{organisationClaimCount, plural, one {# Organisation claim} other {# Organisation claims}}"
 msgstr "{organisationClaimCount, plural, one {# Organization claim} other {# Organization claims}}"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
+msgid "{pendingCount} still to sign."
+msgstr "{pendingCount} still to sign."
+
 #: apps/remix/app/components/general/direct-template/direct-template-page.tsx
 msgid "{recipientActionVerb} document"
 msgstr "{recipientActionVerb} document"
@@ -2491,6 +2495,10 @@ msgstr "Back"
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Back home"
 msgstr "Back home"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
+msgid "Back to document"
+msgstr "Back to document"
 
 #: apps/remix/app/components/forms/branding-preferences-form.tsx
 msgid "Background"
@@ -6036,6 +6044,10 @@ msgstr "Everyone has signed"
 msgid "Everyone has signed! You will receive an email copy of the signed document."
 msgstr "Everyone has signed! You will receive an email copy of the signed document."
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
+msgid "Everyone has signed. Each person will receive the signed document by email."
+msgstr "Everyone has signed. Each person will receive the signed document by email."
+
 #: apps/remix/app/components/general/organisation-usage-panel.tsx
 msgid "Exceeded"
 msgstr "Exceeded"
@@ -7475,6 +7487,7 @@ msgid "Load older activity"
 msgstr "Load older activity"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.edit.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates.$id._index.tsx
 msgid "Loading"
@@ -8043,6 +8056,10 @@ msgstr "Next"
 #: apps/remix/app/components/general/document-signing/document-signing-complete-dialog.tsx
 msgid "Next Field"
 msgstr "Next Field"
+
+#: apps/remix/app/routes/_recipient+/sign.$token+/complete.tsx
+msgid "Next person ({secondsLeft})"
+msgstr "Next person ({secondsLeft})"
 
 #: apps/remix/app/components/general/document-signing/document-signing-complete-dialog.tsx
 msgid "Next Recipient Email"
@@ -9860,6 +9877,7 @@ msgstr "Reject Document"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-header.tsx
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 #: apps/remix/app/components/tables/admin-document-recipients-table.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/constants/document.ts
 #: packages/lib/server-only/pdf/render-certificate.ts
@@ -11116,6 +11134,11 @@ msgstr "Sign in with your signing provider"
 msgid "Sign in with your signing provider to continue"
 msgstr "Sign in with your signing provider to continue"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
+msgid "Sign on this device"
+msgstr "Sign on this device"
+
 #: apps/remix/app/components/general/app-nav-mobile.tsx
 #: apps/remix/app/components/general/org-menu-switcher.tsx
 msgid "Sign Out"
@@ -11198,6 +11221,7 @@ msgid "Signatures Collected"
 msgstr "Signatures Collected"
 
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
 #: packages/ui/components/document/document-read-only-fields.tsx
@@ -11822,6 +11846,10 @@ msgstr "System Requirements"
 #: apps/remix/app/components/general/app-command-menu.tsx
 msgid "System Theme"
 msgstr "System Theme"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
+msgid "Tap your name to sign. When you finish, this tablet comes back to this list for the next person."
+msgstr "Tap your name to sign. When you finish, this tablet comes back to this list for the next person."
 
 #: apps/remix/app/components/dialogs/admin-swap-subscription-dialog.tsx
 msgid "Target Organisation"
@@ -12896,6 +12924,10 @@ msgstr "This document is currently a draft and has not been sent"
 #: apps/remix/app/components/general/document-signing/document-signing-sender-disabled-page.tsx
 msgid "This document is no longer available to sign because the account that sent it has been disabled, likely due to spam or abuse."
 msgstr "This document is no longer available to sign because the account that sent it has been disabled, likely due to spam or abuse."
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
+msgid "This document is not waiting for signatures. Send it first, then come back to this page."
+msgstr "This document is not waiting for signatures. Send it first, then come back to this page."
 
 #: apps/remix/app/utils/toast-error-messages.ts
 msgid "This document is signed in a set order and other recipients must sign before you. You will receive an email when it is your turn."
@@ -14397,6 +14429,10 @@ msgstr "Waiting for others to complete signing"
 #: apps/remix/app/routes/_recipient+/sign.$token+/complete.tsx
 msgid "Waiting for others to sign"
 msgstr "Waiting for others to sign"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.device.tsx
+msgid "Waiting for turn"
+msgstr "Waiting for turn"
 
 #: apps/remix/app/components/embed/embed-document-waiting-for-turn.tsx
 #: apps/remix/app/routes/_recipient+/sign.$token+/waiting.tsx

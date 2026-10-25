@@ -18,7 +18,7 @@ import { Spinner } from '@documenso/ui/primitives/spinner';
 import { msg } from '@lingui/core/macro';
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { DocumentStatus } from '@prisma/client';
-import { ChevronLeft, Users2 } from 'lucide-react';
+import { ChevronLeft, TabletSmartphone, Users2 } from 'lucide-react';
 import { Link } from 'react-router';
 import { match } from 'ts-pattern';
 
@@ -149,6 +149,15 @@ export default function DocumentPage({ params }: Route.ComponentProps) {
             )}
           </div>
         </div>
+
+        {envelope.status === DocumentStatus.PENDING && !envelope.deletedAt && (
+          <Button asChild variant="outline" className="mt-4 shrink-0">
+            <Link to={`${documentRootPath}/${envelope.id}/device`}>
+              <TabletSmartphone className="mr-2 h-4 w-4" />
+              <Trans>Sign on this device</Trans>
+            </Link>
+          </Button>
+        )}
       </div>
 
       <div className="mt-6 grid w-full grid-cols-12 gap-8">
