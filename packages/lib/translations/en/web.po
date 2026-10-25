@@ -6650,6 +6650,13 @@ msgstr "Having an assistant as the last signer means they will be unable to take
 msgid "Height:"
 msgstr "Height:"
 
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/components/general/org-menu-switcher.tsx
+#: apps/remix/app/components/general/public-legal-links.tsx
+msgid "Help"
+msgstr "Help"
+
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
 msgid "Help complete the document for other signers."
 msgstr "Help complete the document for other signers."

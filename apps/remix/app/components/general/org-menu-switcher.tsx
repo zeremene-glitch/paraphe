@@ -343,6 +343,12 @@ export const OrgMenuSwitcher = () => {
                 </DropdownMenuItem>
               )}
 
+              <DropdownMenuItem className="px-4 py-2 text-muted-foreground" asChild>
+                <Link to="/help">
+                  <Trans>Help</Trans>
+                </Link>
+              </DropdownMenuItem>
+
               <DropdownMenuItem
                 className="hover:!text-muted-foreground px-4 py-2 text-muted-foreground"
                 onSelect={async () => authClient.signOut()}

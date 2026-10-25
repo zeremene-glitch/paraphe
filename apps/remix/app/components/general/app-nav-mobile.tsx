@@ -59,6 +59,10 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
           href: '/settings/profile',
           text: t`Settings`,
         },
+        {
+          href: '/help',
+          text: t`Help`,
+        },
       ];
     }
 
@@ -80,6 +84,10 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       {
         href: '/settings/profile',
         text: t`Settings`,
+      },
+      {
+        href: '/help',
+        text: t`Help`,
       },
     ];
   }, [currentTeam, currentOrganisation, organisations, t]);
