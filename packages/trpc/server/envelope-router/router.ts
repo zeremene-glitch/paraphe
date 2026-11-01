@@ -3,6 +3,7 @@ import { createAttachmentRoute } from './attachment/create-attachment';
 import { deleteAttachmentRoute } from './attachment/delete-attachment';
 import { findAttachmentsRoute } from './attachment/find-attachments';
 import { updateAttachmentRoute } from './attachment/update-attachment';
+import { autoPlaceFieldsRoute } from './auto-place-fields';
 import { bulkCancelEnvelopesRoute } from './bulk-cancel-envelopes';
 import { bulkDeleteEnvelopesRoute } from './bulk-delete-envelopes';
 import { bulkMoveEnvelopesRoute } from './bulk-move-envelopes';
@@ -109,6 +110,7 @@ export const envelopeRouter = router({
   cancel: cancelEnvelopeRoute,
   duplicate: duplicateEnvelopeRoute,
   saveAsTemplate: saveAsTemplateRoute,
+  autoPlaceFields: autoPlaceFieldsRoute,
   distribute: distributeEnvelopeRoute,
   redistribute: redistributeEnvelopeRoute,
   signingStatus: signingStatusEnvelopeRoute,

@@ -130,6 +130,9 @@ export const DocumentSigningCompleteDialog = ({
 
   const isComplete = useMemo(() => !fieldsContainUnsignedRequiredField(fields), [fields]);
 
+  // Scriptia: before the first field is filled, the button reads "Start".
+  const hasStarted = useMemo(() => fields.some((field) => field.inserted), [fields]);
+
   const completionRequires2FA = useMemo(
     () => derivedRecipientAccessAuth.includes('TWO_FACTOR_AUTH'),
     [derivedRecipientAccessAuth],
@@ -233,7 +236,7 @@ export const DocumentSigningCompleteDialog = ({
           disabled={disabled}
         >
           {match({ isComplete, role: recipient.role })
-            .with({ isComplete: false }, () => <Trans>Next Field</Trans>)
+            .with({ isComplete: false }, () => (hasStarted ? <Trans>Next Field</Trans> : <Trans>Start</Trans>))
             .with({ isComplete: true, role: RecipientRole.APPROVER }, () => <Trans>Approve</Trans>)
             .with({ isComplete: true, role: RecipientRole.VIEWER }, () => <Trans>Mark as viewed</Trans>)
             .with({ isComplete: true }, () => <Trans>Complete</Trans>)

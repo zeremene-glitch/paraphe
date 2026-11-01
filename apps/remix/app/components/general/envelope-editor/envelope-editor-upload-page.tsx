@@ -13,6 +13,7 @@ import { trpc } from '@documenso/trpc/react';
 import type { TCreateEnvelopeItemsPayload } from '@documenso/trpc/server/envelope-router/create-envelope-items.types';
 import type { TReplaceEnvelopeItemPdfPayload } from '@documenso/trpc/server/envelope-router/replace-envelope-item-pdf.types';
 import { buildDropzoneRejectionDescription } from '@documenso/ui/lib/handle-dropzone-rejection';
+import { cn } from '@documenso/ui/lib/utils';
 import { Button } from '@documenso/ui/primitives/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@documenso/ui/primitives/card';
 import { DocumentDropzone } from '@documenso/ui/primitives/document-dropzone';
@@ -21,10 +22,12 @@ import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { msg, plural } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { FileWarningIcon, GripVerticalIcon, Loader2Icon, PencilIcon, XIcon } from 'lucide-react';
+import { DocumentStatus } from '@prisma/client';
+import { FileWarningIcon, GripVerticalIcon, Loader2Icon, PencilIcon, SendIcon, XIcon } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ErrorCode as DropzoneErrorCode, type FileRejection, useDropzone } from 'react-dropzone';
 
+import { EnvelopeDistributeDialog } from '~/components/dialogs/envelope-distribute-dialog';
 import { EnvelopeItemDeleteDialog } from '~/components/dialogs/envelope-item-delete-dialog';
 import { useCspNonce } from '~/utils/nonce';
 
@@ -59,6 +62,8 @@ export const EnvelopeEditorUploadPage = () => {
     navigateToStep,
     registerExternalFlush,
     registerPendingMutation,
+    isDocument,
+    relativePath,
   } = useCurrentEnvelopeEditor();
 
   const { envelopeItems: uploadConfig } = editorConfig;
@@ -75,6 +80,16 @@ export const EnvelopeEditorUploadPage = () => {
         isError: false,
       })),
   );
+
+  const hasFiles = localFiles.length > 0;
+
+  // Scriptia: send straight from here; missing fields can be added in the send dialog.
+  const canSendFromHere =
+    isDocument &&
+    !isEmbedded &&
+    editorConfig.actions.allowDistributing &&
+    envelope.status === DocumentStatus.DRAFT &&
+    hasFiles;
 
   const replacingItemIdRef = useRef<string | null>(null);
 
@@ -464,10 +479,10 @@ export const EnvelopeEditorUploadPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 p-8">
+    <div className="mx-auto flex max-w-4xl flex-col gap-6 p-8">
       <input {...getReplaceInputProps()} />
 
-      <EnvelopeEditorInvalidDirectTemplateAlert className="max-w-none" />
+      <EnvelopeEditorInvalidDirectTemplateAlert className="order-first max-w-none" />
 
       <Card backdropBlur={false} className="border">
         <CardHeader className="pb-3">
@@ -645,16 +660,34 @@ export const EnvelopeEditorUploadPage = () => {
         </CardContent>
       </Card>
 
-      {/* Recipients Section */}
-      <EnvelopeEditorRecipientForm />
+      {/* Recipients Section. Scriptia: once a file is in, who signs comes first (CSS order, so the form never remounts). */}
+      <div className={cn({ 'order-first': hasFiles })}>
+        <EnvelopeEditorRecipientForm />
+      </div>
 
-      {editorConfig.general.allowAddFieldsStep && (
-        <div className="flex justify-end">
-          <Button type="button" onClick={() => void navigateToStep('addFields')}>
-            <Trans>Add Fields</Trans>
+      <div className="flex flex-wrap items-center justify-end gap-3">
+        {editorConfig.general.allowAddFieldsStep && (
+          <Button
+            type="button"
+            variant={canSendFromHere ? 'outline' : 'default'}
+            onClick={() => void navigateToStep('addFields')}
+          >
+            {canSendFromHere ? <Trans>Check where they sign</Trans> : <Trans>Add Fields</Trans>}
           </Button>
-        </div>
-      )}
+        )}
+
+        {canSendFromHere && (
+          <EnvelopeDistributeDialog
+            documentRootPath={relativePath.documentRootPath}
+            trigger={
+              <Button type="button">
+                <SendIcon className="mr-2 h-4 w-4" />
+                <Trans>Send</Trans>
+              </Button>
+            }
+          />
+        )}
+      </div>
     </div>
   );
 };

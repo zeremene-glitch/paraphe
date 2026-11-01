@@ -76,6 +76,25 @@ export const EnvelopeDistributeDialog = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [showEmailOptions, setShowEmailOptions] = useState(Boolean(envelope.documentMeta?.emailReplyTo));
+
+  const { mutateAsync: autoPlaceFields, isPending: isAutoPlacing } = trpc.envelope.autoPlaceFields.useMutation();
+
+  // Scriptia: one click to give signers without fields a signature, name and date.
+  const onAutoPlaceFields = async () => {
+    try {
+      await autoPlaceFields({ envelopeId: envelope.id });
+      await syncEnvelope();
+    } catch (err) {
+      console.error(err);
+
+      toast({
+        title: t`Something went wrong`,
+        description: t`We could not add the fields. Please add them in the Add Fields step.`,
+        variant: 'destructive',
+      });
+    }
+  };
 
   const { mutateAsync: distributeEnvelope } = trpcReact.envelope.distribute.useMutation();
 
@@ -307,7 +326,7 @@ export const EnvelopeDistributeDialog = ({
                 </Tabs>
 
                 <div
-                  className={cn('min-h-72', {
+                  className={cn('min-h-40', {
                     'min-h-[23rem]': organisation.organisationClaim.flags.emailDomains,
                   })}
                 >
@@ -319,7 +338,7 @@ export const EnvelopeDistributeDialog = ({
                         animate={{ opacity: 1, y: 0, transition: { duration: 0.3 } }}
                         exit={{ opacity: 0, transition: { duration: 0.15 } }}
                       >
-                        <SpinnerBox spinnerProps={{ size: 'sm' }} className="h-72" />
+                        <SpinnerBox spinnerProps={{ size: 'sm' }} className="h-40" />
                       </motion.div>
                     ) : distributionMethod === DocumentDistributionMethod.EMAIL ? (
                       <motion.div
@@ -372,45 +391,6 @@ export const EnvelopeDistributeDialog = ({
 
                             <FormField
                               control={form.control}
-                              name="meta.emailReplyTo"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>
-                                    <Trans>
-                                      Reply To Email <span className="text-muted-foreground">(Optional)</span>
-                                    </Trans>
-                                  </FormLabel>
-
-                                  <FormControl>
-                                    <Input {...field} maxLength={254} />
-                                  </FormControl>
-
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="meta.subject"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>
-                                    <Trans>
-                                      Subject <span className="text-muted-foreground">(Optional)</span>
-                                    </Trans>
-                                  </FormLabel>
-
-                                  <FormControl>
-                                    <Input {...field} maxLength={255} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
                               name="meta.message"
                               render={({ field }) => (
                                 <FormItem>
@@ -439,6 +419,60 @@ export const EnvelopeDistributeDialog = ({
                                 </FormItem>
                               )}
                             />
+
+                            {/* Scriptia: reply-to and subject are rarely needed, so they wait here. */}
+                            {showEmailOptions ? (
+                              <>
+                                <FormField
+                                  control={form.control}
+                                  name="meta.emailReplyTo"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <Trans>
+                                          Reply To Email <span className="text-muted-foreground">(Optional)</span>
+                                        </Trans>
+                                      </FormLabel>
+
+                                      <FormControl>
+                                        <Input {...field} maxLength={254} />
+                                      </FormControl>
+
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name="meta.subject"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <Trans>
+                                          Subject <span className="text-muted-foreground">(Optional)</span>
+                                        </Trans>
+                                      </FormLabel>
+
+                                      <FormControl>
+                                        <Input {...field} maxLength={255} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </>
+                            ) : (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="-ml-2 self-start text-muted-foreground"
+                                onClick={() => setShowEmailOptions(true)}
+                              >
+                                <Trans>Change subject or reply-to address</Trans>
+                              </Button>
+                            )}
                           </fieldset>
                         </Form>
                       </motion.div>
@@ -529,6 +563,12 @@ export const EnvelopeDistributeDialog = ({
                   <Trans>Close</Trans>
                 </Button>
               </DialogClose>
+
+              {invalidEnvelopeCode === 'MISSING_SIGNATURES' && (
+                <Button type="button" loading={isAutoPlacing} onClick={() => void onAutoPlaceFields()}>
+                  <Trans>Add them for me</Trans>
+                </Button>
+              )}
             </DialogFooter>
           </>
         )}

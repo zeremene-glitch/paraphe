@@ -16,4 +16,8 @@ export const PARAPHE_FEATURES = {
   publicProfile: false,
   languageSwitcher: false,
   supportPage: false,
+  // AI field and recipient detection needs an AI provider we do not run.
+  aiDetection: false,
+  // New accounts get one sample document waiting for their own signature.
+  sampleDocument: true,
 } as const;

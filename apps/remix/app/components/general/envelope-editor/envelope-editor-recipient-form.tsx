@@ -24,7 +24,7 @@ import { useToast } from '@documenso/ui/primitives/use-toast';
 import { plural } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { DocumentSigningOrder, RecipientRole, SendStatus } from '@prisma/client';
-import { HelpCircleIcon, PlusIcon, SparklesIcon } from 'lucide-react';
+import { ChevronDownIcon, HelpCircleIcon, PlusIcon, SparklesIcon } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFieldArray, useWatch } from 'react-hook-form';
 import { useRevalidator, useSearchParams } from 'react-router';
@@ -113,6 +113,9 @@ export const EnvelopeEditorRecipientForm = () => {
   }, [recipients, form]);
 
   const [showAdvancedSettings, setShowAdvancedSettings] = useState(recipientHasAuthSettings);
+
+  // Scriptia: signing order lives under "More options" until someone needs it.
+  const [showOrderOptions, setShowOrderOptions] = useState(false);
   const [showSigningOrderConfirmation, setShowSigningOrderConfirmation] = useState(false);
 
   const {
@@ -453,7 +456,8 @@ export const EnvelopeEditorRecipientForm = () => {
           <div
             className={cn('-mt-2 mb-2 space-y-4 rounded-md bg-accent/50 p-4', {
               hidden:
-                !editorConfig.recipients?.allowConfigureSigningOrder && !organisation.organisationClaim.flags.cfr21,
+                (!editorConfig.recipients?.allowConfigureSigningOrder && !organisation.organisationClaim.flags.cfr21) ||
+                (!showOrderOptions && !isSigningOrderSequential && !organisation.organisationClaim.flags.cfr21),
             })}
           >
             {organisation.organisationClaim.flags.cfr21 && (
@@ -579,6 +583,22 @@ export const EnvelopeEditorRecipientForm = () => {
           </div>
 
           <RecipientStepList showAdvancedSettings={showAdvancedSettings} />
+
+          {editorConfig.recipients?.allowConfigureSigningOrder && !isSigningOrderSequential && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="mt-2 -ml-2 text-muted-foreground"
+              aria-expanded={showOrderOptions}
+              onClick={() => setShowOrderOptions((value) => !value)}
+            >
+              {showOrderOptions ? <Trans>Fewer options</Trans> : <Trans>More options</Trans>}
+              <ChevronDownIcon
+                className={cn('ml-1 h-4 w-4 transition-transform duration-150', { 'rotate-180': showOrderOptions })}
+              />
+            </Button>
+          )}
 
           <FormErrorMessage
             className="mt-2"

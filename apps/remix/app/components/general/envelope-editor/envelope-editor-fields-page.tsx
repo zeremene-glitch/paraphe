@@ -20,16 +20,18 @@ import {
 import { getEnvelopeItemPermissions } from '@documenso/lib/utils/envelope';
 import { getOverlappingFieldPairs } from '@documenso/lib/utils/fields-overlap';
 import { canRecipientFieldsBeModified } from '@documenso/lib/utils/recipients';
+import { trpc } from '@documenso/trpc/react';
 import { AnimateGenericFadeInOut } from '@documenso/ui/components/animate/animate-generic-fade-in-out';
 import { cn } from '@documenso/ui/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '@documenso/ui/primitives/alert';
 import { Button } from '@documenso/ui/primitives/button';
 import { Separator } from '@documenso/ui/primitives/separator';
+import { useToast } from '@documenso/ui/primitives/use-toast';
 import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { DocumentStatus, FieldType, RecipientRole } from '@prisma/client';
+import { DocumentStatus, EnvelopeType, FieldType, RecipientRole } from '@prisma/client';
 import { AlertTriangleIcon, FileTextIcon, PencilIcon, SparklesIcon } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRevalidator, useSearchParams } from 'react-router';
@@ -79,7 +81,10 @@ export const EnvelopeEditorFieldsPage = () => {
 
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
 
-  const { envelope, editorFields, navigateToStep, editorConfig } = useCurrentEnvelopeEditor();
+  const { envelope, editorFields, navigateToStep, editorConfig, syncEnvelope } = useCurrentEnvelopeEditor();
+
+  const { toast } = useToast();
+  const { mutateAsync: autoPlaceFields } = trpc.envelope.autoPlaceFields.useMutation();
 
   const { currentEnvelopeItem, setCurrentEnvelopeItem } = useCurrentEnvelopeRender();
 
@@ -174,6 +179,41 @@ export const EnvelopeEditorFieldsPage = () => {
 
     setIsAiFieldDialogOpen(false);
   };
+
+  /**
+   * Scriptia: signers with no fields get a signature, name and date at the end
+   * of the document, so most people can go straight to Send.
+   */
+  useEffect(() => {
+    if (envelope.type !== EnvelopeType.DOCUMENT || envelope.status !== DocumentStatus.DRAFT) {
+      return;
+    }
+
+    const signerNeedsFields = envelope.recipients.some(
+      (recipient) =>
+        recipient.role === RecipientRole.SIGNER && !envelope.fields.some((field) => field.recipientId === recipient.id),
+    );
+
+    if (!signerNeedsFields) {
+      return;
+    }
+
+    void autoPlaceFields({ envelopeId: envelope.id })
+      .then(async ({ placed }) => {
+        if (placed === 0) {
+          return;
+        }
+
+        await syncEnvelope();
+
+        toast({
+          title: _(msg`Fields added for you`),
+          description: _(msg`Signature, name and date are at the end of the document. Drag them if you want.`),
+          duration: 6000,
+        });
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   /**
    * Set the selected recipient to the first recipient in the envelope.

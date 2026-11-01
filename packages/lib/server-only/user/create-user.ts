@@ -3,8 +3,10 @@ import { hash } from '@node-rs/bcrypt';
 import type { User } from '@prisma/client';
 
 import { SALT_ROUNDS } from '../../constants/auth';
+import { PARAPHE_FEATURES } from '../../constants/paraphe';
 import { AppError, AppErrorCode } from '../../errors/app-error';
 import { createPersonalOrganisation } from '../organisation/create-organisation';
+import { createSampleDocument } from './create-sample-document';
 
 export interface CreateUserOptions {
   name: string;
@@ -63,6 +65,13 @@ export type OnCreateUserHookOptions = {
 export const onCreateUserHook = async (user: User, options: OnCreateUserHookOptions = {}) => {
   if (!options.skipPersonalOrganisation) {
     await createPersonalOrganisation({ userId: user.id });
+
+    // Scriptia: a sample document to try signing. Never block signup on it.
+    if (PARAPHE_FEATURES.sampleDocument) {
+      await createSampleDocument({ userId: user.id }).catch((err) => {
+        console.error('[Scriptia] Sample document was not created', err);
+      });
+    }
   }
 
   return user;

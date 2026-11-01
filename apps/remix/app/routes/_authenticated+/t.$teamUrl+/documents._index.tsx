@@ -24,13 +24,14 @@ import {
 } from '~/components/dialogs/envelopes-bulk-download-dialog';
 import { EnvelopesBulkMoveDialog } from '~/components/dialogs/envelopes-bulk-move-dialog';
 import { DocumentSearch } from '~/components/general/document/document-search';
+import { DocumentStartChoices } from '~/components/general/envelope/document-start-choices';
 import { EnvelopeDropZoneWrapper } from '~/components/general/envelope/envelope-drop-zone-wrapper';
 import { FolderGrid } from '~/components/general/folder/folder-grid';
+import { DocumentsStatusTabs } from '~/components/tables/documents-status-tabs';
 import { DocumentsTable } from '~/components/tables/documents-table';
 import { DocumentsTableEmptyState } from '~/components/tables/documents-table-empty-state';
 import { DocumentsTablePeriodFilter } from '~/components/tables/documents-table-period-filter';
 import { DocumentsTableSenderFilter } from '~/components/tables/documents-table-sender-filter';
-import { DocumentsTableStatusFilter } from '~/components/tables/documents-table-status-filter';
 import { EnvelopesTableBulkActionBar } from '~/components/tables/envelopes-table-bulk-action-bar';
 import { useCurrentTeam } from '~/providers/team';
 import { documentsSearchParams } from '~/utils/documents-search-params';
@@ -155,15 +156,13 @@ export default function DocumentsPage() {
 
   const hasActiveFilters = useMemo(() => {
     return Boolean(
-      (findDocumentSearchParams.status && findDocumentSearchParams.status !== ExtendedDocumentStatus.ALL) ||
-        findDocumentSearchParams.senderIds?.length ||
-        findDocumentSearchParams.period,
+      // The status is picked with the tabs, so it is not a "filter" to reset here.
+      findDocumentSearchParams.senderIds?.length || findDocumentSearchParams.period,
     );
   }, [findDocumentSearchParams]);
 
   const onResetFilters = () => {
     void setFindDocumentSearchParams({
-      status: null,
       senderIds: null,
       period: null,
       page: null,
@@ -192,12 +191,16 @@ export default function DocumentsPage() {
           </h2>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-4">
+        <DocumentStartChoices folderId={folderId} />
+
+        <div className="mt-10">
+          <DocumentsStatusTabs stats={stats} />
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-4">
           <div className="w-56">
             <DocumentSearch />
           </div>
-
-          <DocumentsTableStatusFilter stats={stats} />
 
           {team && <DocumentsTableSenderFilter teamId={team.id} />}
 

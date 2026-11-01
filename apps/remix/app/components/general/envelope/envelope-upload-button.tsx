@@ -14,7 +14,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@docum
 import { useToast } from '@documenso/ui/primitives/use-toast';
 import { msg, plural } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { EnvelopeType } from '@prisma/client';
+import { EnvelopeType, RecipientRole } from '@prisma/client';
 import { useMemo, useState } from 'react';
 import { ErrorCode as DropzoneErrorCode, type FileRejection } from 'react-dropzone';
 import { useNavigate } from 'react-router';
@@ -29,9 +29,20 @@ export type EnvelopeUploadButtonProps = {
 };
 
 /**
- * Upload an envelope
+ * Scriptia upload modes:
+ * - `send`: upload and open the editor to add signers (the upstream flow).
+ * - `self`: "Just me". The user is the only signer, fields are placed for them,
+ *   nothing is emailed, and they land straight on the signing page.
  */
-export const EnvelopeUploadButton = ({ className, type, folderId }: EnvelopeUploadButtonProps) => {
+export type EnvelopeUploadMode = 'send' | 'self';
+
+export type UseEnvelopeUploadOptions = {
+  type: EnvelopeType;
+  folderId?: string;
+  mode?: EnvelopeUploadMode;
+};
+
+export const useEnvelopeUpload = ({ type, folderId, mode = 'send' }: UseEnvelopeUploadOptions) => {
   const { t, i18n } = useLingui();
   const { toast } = useToast();
   const { user } = useSession();
@@ -49,6 +60,10 @@ export const EnvelopeUploadButton = ({ className, type, folderId }: EnvelopeUplo
   const [isLoading, setIsLoading] = useState(false);
 
   const { mutateAsync: createEnvelope } = trpc.envelope.create.useMutation();
+  const { mutateAsync: autoPlaceFields } = trpc.envelope.autoPlaceFields.useMutation();
+  const { mutateAsync: distributeEnvelope } = trpc.envelope.distribute.useMutation();
+
+  const isSelfSign = mode === 'self' && type === EnvelopeType.DOCUMENT;
 
   const disabledMessage = useMemo(() => {
     if (organisation.subscription && remaining.documents === 0) {
@@ -76,7 +91,11 @@ export const EnvelopeUploadButton = ({ className, type, folderId }: EnvelopeUplo
         title: files[0].name,
         meta: {
           timezone: userTimezone,
+          ...(isSelfSign ? { distributionMethod: 'NONE' as const } : {}),
         },
+        recipients: isSelfSign
+          ? [{ email: user.email, name: user.name ?? '', role: RecipientRole.SIGNER, signingOrder: 1 }]
+          : undefined,
       } satisfies TCreateEnvelopePayload;
 
       const formData = new FormData();
@@ -94,6 +113,21 @@ export const EnvelopeUploadButton = ({ className, type, folderId }: EnvelopeUplo
       });
 
       void refreshLimits();
+
+      if (isSelfSign) {
+        await autoPlaceFields({ envelopeId: id });
+
+        const { recipients } = await distributeEnvelope({
+          envelopeId: id,
+          meta: { distributionMethod: 'NONE' },
+        });
+
+        const self = recipients.find((recipient) => recipient.email === user.email) ?? recipients[0];
+
+        await navigate(`/sign/${self.token}`);
+
+        return;
+      }
 
       const pathPrefix = type === EnvelopeType.DOCUMENT ? formatDocumentsPath(team.url) : formatTemplatesPath(team.url);
 
@@ -158,6 +192,33 @@ export const EnvelopeUploadButton = ({ className, type, folderId }: EnvelopeUplo
     });
   };
 
+  return {
+    isLoading,
+    disabled: remaining.documents === 0 || !user.emailVerified,
+    disabledMessage,
+    maximumEnvelopeItemCount,
+    remaining,
+    quota,
+    onFileDrop,
+    onFileDropRejected,
+  };
+};
+
+/**
+ * Upload an envelope
+ */
+export const EnvelopeUploadButton = ({ className, type, folderId }: EnvelopeUploadButtonProps) => {
+  const {
+    isLoading,
+    disabled,
+    disabledMessage,
+    maximumEnvelopeItemCount,
+    remaining,
+    quota,
+    onFileDrop,
+    onFileDropRejected,
+  } = useEnvelopeUpload({ type, folderId });
+
   return (
     <div className={cn('relative', className)}>
       <TooltipProvider>
@@ -166,7 +227,7 @@ export const EnvelopeUploadButton = ({ className, type, folderId }: EnvelopeUplo
             <div>
               <DocumentUploadButton
                 loading={isLoading}
-                disabled={remaining.documents === 0 || !user.emailVerified}
+                disabled={disabled}
                 disabledMessage={disabledMessage}
                 onDrop={onFileDrop}
                 onDropRejected={onFileDropRejected}

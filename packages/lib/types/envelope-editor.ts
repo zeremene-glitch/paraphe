@@ -1,3 +1,4 @@
+import { PARAPHE_FEATURES } from '@documenso/lib/constants/paraphe';
 import { ZBaseEmbedDataSchema } from '@documenso/lib/types/embed-base-schemas';
 import { ZEnvelopeFieldSchema } from '@documenso/lib/types/field';
 import { ZEnvelopeRecipientLiteSchema } from '@documenso/lib/types/recipient';
@@ -143,7 +144,7 @@ export const DEFAULT_EDITOR_CONFIG: EnvelopeEditorConfig = {
     allowReplace: true,
   },
   recipients: {
-    allowAIDetection: true,
+    allowAIDetection: PARAPHE_FEATURES.aiDetection,
     allowConfigureSigningOrder: true,
     allowConfigureDictateNextSigner: true,
 
@@ -153,7 +154,7 @@ export const DEFAULT_EDITOR_CONFIG: EnvelopeEditorConfig = {
     allowAssistantRole: true,
   },
   fields: {
-    allowAIDetection: true,
+    allowAIDetection: PARAPHE_FEATURES.aiDetection,
   },
 };
 
