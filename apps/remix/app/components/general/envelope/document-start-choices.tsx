@@ -17,7 +17,7 @@ import { type EnvelopeUploadMode, useEnvelopeUpload } from './envelope-upload-bu
 
 const choiceClassName = cn(
   'group flex w-full items-center gap-3 rounded-lg border border-border bg-background px-4 py-3 text-left',
-  'transition-[background-color,border-color] duration-150 ease-out',
+  'transition-[background-color,border-color,transform] duration-150 ease-out active:scale-[0.98] motion-reduce:active:scale-100',
   'hover:border-primary/40 hover:bg-primary/5',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
   'aria-disabled:cursor-not-allowed aria-disabled:opacity-60',
