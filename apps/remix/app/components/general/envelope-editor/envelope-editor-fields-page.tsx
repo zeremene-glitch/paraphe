@@ -184,7 +184,16 @@ export const EnvelopeEditorFieldsPage = () => {
    * Scriptia: signers with no fields get a signature, name and date at the end
    * of the document, so most people can go straight to Send.
    */
+  const hasTriedAutoPlace = useRef(false);
+
   useEffect(() => {
+    // Guard against a second run (React StrictMode, remounts) creating duplicate fields.
+    if (hasTriedAutoPlace.current) {
+      return;
+    }
+
+    hasTriedAutoPlace.current = true;
+
     if (envelope.type !== EnvelopeType.DOCUMENT || envelope.status !== DocumentStatus.DRAFT) {
       return;
     }
