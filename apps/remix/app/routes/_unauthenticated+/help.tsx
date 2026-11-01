@@ -17,69 +17,68 @@ type Step = {
 
 const GETTING_STARTED: Step[] = [
   {
-    title: 'Upload a document',
-    body: 'On the Documents page, drop a PDF or Word (.docx) file on the upload area, or click it to choose a file. Word files are converted to PDF for you.',
+    title: 'Try the sample document',
+    body: 'New accounts start with "Sample - try signing me.pdf". Open it, press Start and sign it. It takes a minute and nobody else receives it.',
+  },
+  {
+    title: 'Choose what you want to do',
+    body: 'The Documents page starts with three choices: Just me, Send for signature and Use a template. Click one to choose a file, or drop the file on it. PDF and Word (.docx) both work; Word files become PDF.',
+  },
+  {
+    title: 'Just me: sign your own file',
+    body: 'Pick Just me and choose the file. Scriptia adds your signature, name and date at the end of the document and opens it for you to sign.',
     points: [
-      'The first screen, General, lets you change the title, the language of the emails and who can see the document.',
-      'Tip: write tags such as {{signature, r1}} in your Word file and Scriptia places the fields for you. See "How do I place fields automatically?" in the FAQ.',
+      'Press Start: it takes you to each field in turn.',
+      'Press Complete. The signed PDF is ready to download a few seconds later, and you also get it by email.',
     ],
   },
   {
-    title: 'Add the signers',
-    body: 'In Add Signers, enter the email and name of each person. Add as many as you need: everyone signs the same document.',
+    title: 'Send for signature: add the people',
+    body: 'Pick Send for signature and choose the file. Then type the email and name of each person who signs. Scriptia suggests people you have sent to before.',
     points: [
-      'Use the pen icon next to each person to choose their role: Signer, Approver, Viewer, Assistant or CC (receives a copy only).',
-      'Turn on Enable signing order if people must sign one after the other.',
+      'Add Myself puts you on the list if you sign too.',
+      'Use the pen icon next to a person to change their role: Signer, Approver, Viewer, Assistant or CC (gets a copy only).',
+      'People need to sign one after the other? Click More options and turn on Enable signing order.',
       'Signers do not need a Scriptia account.',
     ],
   },
   {
-    title: 'Place the fields',
-    body: 'In Add Fields, pick a signer at the top, then drag Signature, Name, Date, Text or other fields onto the page. Each signer has their own colour.',
-    points: ['Every signer needs at least one Signature field.', 'Drag the corners of a field to resize it.'],
+    title: 'Check where they sign (optional)',
+    body: 'Each signer gets a signature, name and date at the end of the document automatically. Click Check where they sign to see them, drag them somewhere else, or add more fields such as Text or Checkbox.',
+    points: [
+      'Tip: write tags such as {{signature, r1}} in your Word file and the fields land exactly there. See "How do I place fields automatically?" below.',
+    ],
   },
   {
     title: 'Send',
-    body: 'In Distribute Document, check the email subject and message, then click Send. Each signer receives an email with a personal link.',
+    body: 'Click Send, add a message if you like, and click Send again. Each person receives an email with their own link.',
     points: [
-      'Reminders go out automatically to anyone who has not signed yet (see Settings → Reminders).',
-      'To ask for an extra check before signing, set Document access to "Require verification code" in General.',
+      'If someone has no signature field yet, click Add them for me.',
+      'Change subject or reply-to address is under the message box.',
+      'Reminders go out automatically to anyone who has not signed yet.',
     ],
   },
   {
     title: 'Follow progress',
-    body: 'The Documents page shows each document as Draft, Pending or Completed. Open a document to see who has opened, signed or not yet acted.',
-    points: ['Use Resend to send the email again to someone who lost it.'],
+    body: 'Use the tabs on the Documents page: To sign (waiting for you), Waiting for others, Completed, Drafts and All. Open a document to see who has opened or signed it.',
+    points: ['Resend sends the email again to someone who lost it.'],
   },
   {
     title: 'Download the signed PDF',
-    body: 'When everyone has signed, the document becomes Completed and everyone receives the final PDF by email. You can also click Download on the document.',
+    body: 'When everyone has signed, the document moves to Completed and everyone receives the final PDF by email. You can also click Download on the document.',
     points: [
-      'The PDF is sealed and time-stamped. A change after signing breaks the seal.',
+      'The PDF is sealed and time-stamped. Any change after signing breaks the seal.',
       'The last page is the Certificate of Completion: signers, times, IP addresses and the document fingerprint (SHA-256).',
-      'The full activity history stays in Scriptia (document page → Audit Logs).',
     ],
   },
   {
     title: 'Reuse a document as a template',
-    body: 'For documents you send often, go to Templates, upload the file and set up placeholders (Recipient 1, Recipient 2…) and their fields once.',
+    body: 'For documents you send often, go to Templates, upload the file and set up placeholders (Recipient 1, Recipient 2…) and their fields once. Next time, choose Use a template on the Documents page.',
     points: [
       'Click Use, fill in the real names and emails, and a new document is created, ready to send.',
-      'Edit Template changes the template only. Documents already created are not affected.',
+      'Bulk Send via CSV creates one document per row of a spreadsheet, up to 100 rows.',
+      'Create Direct Link gives a link (or QR code) anyone can open to sign straight away.',
     ],
-  },
-  {
-    title: 'Send to many people at once (CSV)',
-    body: 'On a template, click Bulk Send via CSV. Download the CSV example, put one row per document, upload it and click Upload and Process.',
-    points: [
-      'Each row creates a separate document. Up to 100 rows per file.',
-      'You get an email with a summary when it has finished.',
-    ],
-  },
-  {
-    title: 'Share a direct link',
-    body: 'On a template, click Create Direct Link. Anyone who opens the link can fill in their details and sign straight away, without an email invitation.',
-    points: ['Useful for a QR code on a sign-in sheet or a link on a website.'],
   },
   {
     title: 'Add your logo and colours',
@@ -98,13 +97,25 @@ const FAQS: Faq[] = [
     group: 'Sending',
     question: 'Can several people sign the same document?',
     answer:
-      'Yes. Add each person in Add Signers and give each one their own fields. When the last person signs, everyone receives one PDF with all the signatures.',
+      'Yes. Add each person under Send for signature. Each one gets their own fields automatically. When the last person signs, everyone receives one PDF with all the signatures.',
   },
   {
     group: 'Sending',
     question: 'Can people sign in a fixed order?',
     answer:
-      'Yes. Turn on Enable signing order in Add Signers and drag the people into the order you want. The next person is invited only when the one before has signed.',
+      'Yes. Under the list of people, click More options, turn on Enable signing order and drag the people into the order you want. The next person is invited only when the one before has signed.',
+  },
+  {
+    group: 'Sending',
+    question: 'I only need to sign something myself. What is the fastest way?',
+    answer:
+      'Choose Just me on the Documents page and pick the file. Scriptia places your signature, name and date and opens the document for you. Press Start, sign, then Complete. Nothing is emailed to anyone else.',
+  },
+  {
+    group: 'Sending',
+    question: 'Do I have to place the fields myself?',
+    answer:
+      'No. Every signer gets a signature, name and date at the bottom of the last page. Open Add Fields (or Check where they sign) only if you want to move them or add more.',
   },
   {
     group: 'Sending',
@@ -161,7 +172,7 @@ const FAQS: Faq[] = [
     group: 'Signing',
     question: 'I received an email from Scriptia. What do I do?',
     answer:
-      'Click the button in the email, read the document, fill in the highlighted fields and click Complete. You will receive the signed PDF by email when everyone has signed.',
+      'Click the button in the email and read the document. Press Start: it takes you to each field you need to fill. Then click Complete. You will receive the signed PDF by email when everyone has signed.',
   },
   {
     group: 'Signing',
@@ -201,7 +212,7 @@ const FAQS: Faq[] = [
     group: 'Legal and security',
     question: 'Can I require extra verification before signing?',
     answer:
-      'Yes. In General, set Document access to "Require verification code". The signer must enter a 6-digit code sent by email before opening the document.',
+      'Yes. In the document editor, click the gear icon at the top (Document Settings) and set Document access to "Require verification code". The signer must enter a 6-digit code sent by email before opening the document.',
   },
   {
     group: 'Legal and security',
