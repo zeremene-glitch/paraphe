@@ -1,4 +1,3 @@
-import communityCardsImage from '@documenso/assets/images/community-cards.png';
 import { authClient } from '@documenso/auth/client';
 import { useAnalytics } from '@documenso/lib/client-only/hooks/use-analytics';
 import {
@@ -25,6 +24,7 @@ import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
 import { Turnstile } from '@marsidev/react-turnstile';
+import { CheckIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Fragment, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -33,7 +33,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { z } from 'zod';
 
-import { UserProfileTimur } from '~/components/general/user-profile-timur';
+import { BrandingLogo } from '~/components/general/branding-logo';
 
 export const ZSignUpFormSchema = z
   .object({
@@ -222,27 +222,34 @@ export const SignUpForm = ({
 
   return (
     <div className={cn('flex justify-center gap-x-12', className)}>
-      <div className="relative hidden flex-1 overflow-hidden rounded-xl border border-border xl:flex">
-        <div className="absolute -inset-8 -z-[2] backdrop-blur">
-          <img
-            src={communityCardsImage}
-            alt="community-cards"
-            className="h-full w-full object-cover dark:brightness-95 dark:contrast-[70%] dark:invert"
-          />
-        </div>
+      <div className="relative hidden flex-1 overflow-hidden rounded-xl bg-[#0d1626] text-[#efe6d4] xl:flex">
+        <div className="flex h-full w-full flex-col justify-between p-12">
+          <BrandingLogo className="h-9 w-auto self-start" />
 
-        <div className="absolute -inset-8 -z-[1] bg-background/50 backdrop-blur-[2px]" />
+          <div>
+            <h2 className="max-w-md font-serif text-4xl leading-tight tracking-tight">
+              <Trans>Every signature, sealed and kept in Europe.</Trans>
+            </h2>
 
-        <div className="relative flex h-full w-full flex-col items-center justify-evenly">
-          <div className="rounded-2xl border bg-background px-4 py-1 font-medium text-sm">
-            <Trans>User profiles are here!</Trans>
+            <ul className="mt-10 space-y-5 text-[#c4bdae] text-[15px]">
+              <li className="flex gap-3">
+                <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-[#e7ab6c]" />
+                <Trans>Upload a PDF or Word file. Fields can place themselves from tags.</Trans>
+              </li>
+              <li className="flex gap-3">
+                <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-[#e7ab6c]" />
+                <Trans>Send by email, or let a whole team sign on one tablet.</Trans>
+              </li>
+              <li className="flex gap-3">
+                <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-[#e7ab6c]" />
+                <Trans>Get one sealed, timestamped PDF. Hosted in Frankfurt.</Trans>
+              </li>
+            </ul>
           </div>
 
-          <div className="w-full max-w-md">
-            <UserProfileTimur rows={2} className="rounded-2xl border border-border bg-background shadow-md" />
-          </div>
-
-          <div />
+          <p className="text-[#c4bdae] text-sm">
+            <Trans>Free to use. No card needed.</Trans>
+          </p>
         </div>
       </div>
 
@@ -253,10 +260,7 @@ export const SignUpForm = ({
           </h1>
 
           <p className="mt-2 text-muted-foreground text-xs md:text-sm">
-            <Trans>
-              Create your account and start using state-of-the-art document signing. Open and beautiful signing is
-              within your grasp.
-            </Trans>
+            <Trans>Free to use. Send your first document for signature in a few minutes.</Trans>
           </p>
         </div>
 
