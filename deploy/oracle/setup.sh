@@ -77,6 +77,8 @@ fi
 
 # Settings added after the first install (kept if already present)
 grep -q '^CONVERTER_PASSWORD=' .env || echo "CONVERTER_PASSWORD=$(openssl rand -hex 24)" >> .env
+# Accounts are created by the admin; nobody can sign up on their own.
+grep -q '^NEXT_PUBLIC_DISABLE_SIGNUP=' .env || echo "NEXT_PUBLIC_DISABLE_SIGNUP=true" >> .env
 
 if [ ! -f secrets/cert.p12 ]; then
   say 'Creating the document signing certificate'
