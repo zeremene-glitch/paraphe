@@ -12,21 +12,23 @@ export default function UnverifiedAccount() {
         </div>
         <div className="">
           <h2 className="font-bold text-2xl md:text-4xl">
-            <Trans>Confirm email</Trans>
+            <Trans>Check your inbox</Trans>
           </h2>
 
           <p className="mt-4 text-muted-foreground">
             <Trans>
-              To gain access to your account, please confirm your email address by clicking on the confirmation link
-              from your inbox.
+              We sent you a confirmation link. Click it to activate your account, then sign in. It can take a minute to
+              arrive, and may land in spam.
             </Trans>
           </p>
 
-          <p className="mt-4 text-muted-foreground">
-            <Trans>If you don't find the confirmation link in your inbox, you can request a new one below.</Trans>
-          </p>
+          <details className="group mt-8">
+            <summary className="cursor-pointer text-muted-foreground text-sm underline-offset-4 hover:text-foreground hover:underline">
+              <Trans>Didn't get the email? Send it again</Trans>
+            </summary>
 
-          <SendConfirmationEmailForm />
+            <SendConfirmationEmailForm />
+          </details>
         </div>
       </div>
     </div>
