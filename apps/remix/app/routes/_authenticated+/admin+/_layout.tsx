@@ -49,7 +49,7 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
   const { pathname } = useLocation();
 
   return (
-    <div className="mx-auto w-full max-w-screen-xl px-4 md:px-8">
+    <div className="mx-auto w-full max-w-[1760px] px-4 md:px-8">
       <AdminLicenseStatusBanner license={license} />
 
       <h1 className="font-semibold text-4xl">
@@ -59,7 +59,7 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
       <div className="mt-4 grid grid-cols-12 gap-x-8 md:mt-8">
         <div
           className={cn(
-            'col-span-12 flex gap-x-2.5 gap-y-2 overflow-hidden overflow-x-auto md:col-span-3 md:flex md:flex-col',
+            'col-span-12 flex gap-x-2.5 gap-y-2 overflow-hidden overflow-x-auto md:col-span-3 md:flex md:flex-col xl:col-span-2',
           )}
         >
           <Button
@@ -193,7 +193,7 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
           </Button>
         </div>
 
-        <div className="col-span-12 mt-12 md:col-span-9 md:mt-0">
+        <div className="col-span-12 mt-12 min-w-0 md:col-span-9 md:mt-0 xl:col-span-10">
           <Outlet />
         </div>
       </div>
