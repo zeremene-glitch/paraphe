@@ -32,8 +32,17 @@ ls -1t backups/scriptia-*.dump 2>/dev/null | tail -n +$((KEEP + 1)) | xargs -r r
 
 if [ -f secrets/backup-upload-url ]; then
   URL="$(cat secrets/backup-upload-url)"
-  NAME="$(basename "$FILE")"
-  CODE="$(curl -sS -o /dev/null -w '%{http_code}' -X PUT --data-binary @"$FILE" "${URL%/}/$NAME")"
+  UPLOAD="$FILE"
+  # Encrypt the off-site copy when an age public key is set. Only the matching
+  # private key (kept off this server) can read it:
+  #   age -d -i backup-age-key.txt scriptia-<stamp>.dump.age > scriptia-<stamp>.dump
+  if [ -s secrets/backup-age-recipient ]; then
+    age -r "$(cat secrets/backup-age-recipient)" -o "$FILE.age" "$FILE"
+    UPLOAD="$FILE.age"
+  fi
+  NAME="$(basename "$UPLOAD")"
+  CODE="$(curl -sS -o /dev/null -w '%{http_code}' -X PUT --data-binary @"$UPLOAD" "${URL%/}/$NAME")"
+  [ "$UPLOAD" != "$FILE" ] && rm -f "$UPLOAD"
   if [ "$CODE" = "200" ]; then
     echo "$(date -u +%FT%TZ) off-site upload ok: $NAME"
   else

@@ -23,6 +23,13 @@ if ! command -v docker >/dev/null 2>&1; then
   usermod -aG docker "${SUDO_USER:-ubuntu}" || true
 fi
 
+# age encrypts the off-site backup copy (see backup.sh).
+if ! command -v age >/dev/null 2>&1; then
+  say 'Installing age (backup encryption)'
+  apt-get update -y
+  apt-get install -y age
+fi
+
 # 2. Firewall: Oracle's Ubuntu images reject everything except SSH by default.
 for port in 80 443; do
   if ! iptables -C INPUT -m state --state NEW -p tcp --dport "$port" -j ACCEPT 2>/dev/null; then
