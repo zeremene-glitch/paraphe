@@ -13,6 +13,7 @@ import { isTwoFactorAuthenticationEnabled } from '@documenso/lib/server-only/2fa
 import { setupTwoFactorAuthentication } from '@documenso/lib/server-only/2fa/setup-2fa';
 import { validateTwoFactorAuthentication } from '@documenso/lib/server-only/2fa/validate-2fa';
 import { viewBackupCodes } from '@documenso/lib/server-only/2fa/view-backup-codes';
+import { notifyAdminOfSignup } from '@documenso/lib/server-only/auth/notify-admin-of-signup';
 import { verifyCaptchaToken } from '@documenso/lib/server-only/captcha/verify-captcha';
 import { rateLimitResponse } from '@documenso/lib/server-only/rate-limit/rate-limit-middleware';
 import {
@@ -242,6 +243,9 @@ export const emailPasswordRoute = new Hono<HonoAuthContext>()
         email: user.email,
       },
     });
+
+    // Scriptia: heads-up to the operator; never blocks the sign-up.
+    void notifyAdminOfSignup({ userId: user.id, name: user.name ?? name, email: user.email });
 
     return c.text('OK', 201);
   })
