@@ -6,6 +6,7 @@ import {
 } from '@documenso/lib/constants/auth';
 import { formatEmbedAuthCompletePageUrl } from '@documenso/lib/constants/embed-auth';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { notifyAdminOfSignup } from '@documenso/lib/server-only/auth/notify-admin-of-signup';
 import { getEmailBlocklistDomains } from '@documenso/lib/server-only/site-settings/get-email-blocklist-domains';
 import { onCreateUserHook } from '@documenso/lib/server-only/user/create-user';
 import { deletedServiceAccountEmail } from '@documenso/lib/server-only/user/service-accounts/deleted-account';
@@ -213,9 +214,37 @@ const handleOAuthCallback = async (options: HandleOAuthCallbackUrlOptions) => {
     console.error(err);
   });
 
+  void notifyAdminOfSignup({ userId: createdUser.id, name: createdUser.name ?? name, email: createdUser.email });
+
   await onAuthorize({ userId: createdUser.id }, c);
 
   return c.redirect(redirectPath, 302);
+};
+
+// Tenant id Microsoft uses for personal accounts (Outlook.com, Hotmail, Live).
+const MICROSOFT_CONSUMER_TENANT_ID = '9188040d-6c67-4c5b-b112-36a304b66dad';
+
+const isTrueClaim = (value: unknown) => value === true || value === 'true' || value === 1 || value === '1';
+
+/**
+ * Scriptia: decide whether the email in an ID token can be trusted.
+ *
+ * Microsoft does not send `email_verified`. Its `email` claim is trustworthy only for
+ * personal accounts (the email is the sign-in name) or when the optional `xms_edov`
+ * claim says the tenant has verified it owns the email's domain. Anything else is
+ * rejected, which blocks "nOAuth" account takeover through a tenant that sets
+ * someone else's email address.
+ */
+const isOAuthEmailVerified = (claims: Record<string, unknown>, clientOptions: OAuthClientOptions) => {
+  if (clientOptions.bypassEmailVerification || claims.email_verified === true) {
+    return true;
+  }
+
+  if (clientOptions.id === 'microsoft') {
+    return claims.tid === MICROSOFT_CONSUMER_TENANT_ID || isTrueClaim(claims.xms_edov);
+  }
+
+  return false;
 };
 
 export const validateOauth = async (options: HandleOAuthCallbackUrlOptions) => {
@@ -291,7 +320,7 @@ export const validateOauth = async (options: HandleOAuthCallbackUrlOptions) => {
     });
   }
 
-  if (claims.email_verified !== true && !clientOptions.bypassEmailVerification) {
+  if (!isOAuthEmailVerified(claims, clientOptions)) {
     throw new AppError(AuthenticationErrorCode.UnverifiedEmail, {
       message: 'Account email is not verified',
     });
