@@ -6,7 +6,7 @@ import { useToast } from '@documenso/ui/primitives/use-toast';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { AlertTriangle, CheckCircle2, Loader, XCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Clock, Loader, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, redirect, useNavigate } from 'react-router';
 import { match } from 'ts-pattern';
@@ -35,6 +35,7 @@ export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
 
   const [state, setState] = useState<keyof typeof EMAIL_VERIFICATION_STATE | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingApproval, setPendingApproval] = useState(false);
 
   const verifyToken = async () => {
     setIsLoading(true);
@@ -46,6 +47,7 @@ export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
 
       await refreshSession();
 
+      setPendingApproval(response.pendingApproval === true);
       setState(response.state);
     } catch (err) {
       console.error(err);
@@ -69,6 +71,38 @@ export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
     return (
       <div className="relative">
         <Loader className="h-8 w-8 animate-spin text-documenso" />
+      </div>
+    );
+  }
+
+  // Scriptia: the email is confirmed, but the account still waits for the operator.
+  if (state === EMAIL_VERIFICATION_STATE.VERIFIED && pendingApproval) {
+    return (
+      <div className="w-screen max-w-lg px-4">
+        <div className="flex w-full items-start">
+          <div className="mt-1 mr-4 hidden md:block">
+            <Clock className="h-10 w-10 text-primary" strokeWidth={2} />
+          </div>
+
+          <div>
+            <h2 className="font-bold text-2xl md:text-4xl">
+              <Trans>Email confirmed. One more step.</Trans>
+            </h2>
+
+            <p className="mt-4 text-muted-foreground">
+              <Trans>
+                Every new Scriptia account is checked before first use. We will email you as soon as yours is approved,
+                usually within one working day.
+              </Trans>
+            </p>
+
+            <Button className="mt-4" asChild>
+              <a href="https://scriptia.eu">
+                <Trans>Back to scriptia.eu</Trans>
+              </a>
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }

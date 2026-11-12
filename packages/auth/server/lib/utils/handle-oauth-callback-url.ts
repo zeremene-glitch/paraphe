@@ -11,6 +11,7 @@ import { getEmailBlocklistDomains } from '@documenso/lib/server-only/site-settin
 import { onCreateUserHook } from '@documenso/lib/server-only/user/create-user';
 import { deletedServiceAccountEmail } from '@documenso/lib/server-only/user/service-accounts/deleted-account';
 import { legacyServiceAccountEmail } from '@documenso/lib/server-only/user/service-accounts/legacy-service-account';
+import { signupRequiresApproval } from '@documenso/lib/server-only/user/signup-approval';
 import { isValidReturnTo, normalizeReturnTo } from '@documenso/lib/utils/is-valid-return-to';
 import { logger } from '@documenso/lib/utils/logger';
 import { prisma } from '@documenso/prisma';
@@ -190,6 +191,7 @@ const handleOAuthCallback = async (options: HandleOAuthCallbackUrlOptions) => {
         email: email,
         name: name,
         emailVerified: new Date(),
+        disabled: signupRequiresApproval(),
       },
     });
 
@@ -215,6 +217,10 @@ const handleOAuthCallback = async (options: HandleOAuthCallbackUrlOptions) => {
   });
 
   void notifyAdminOfSignup({ userId: createdUser.id, name: createdUser.name ?? name, email: createdUser.email });
+
+  if (createdUser.disabled) {
+    return redirectToSignInError(c, AuthenticationErrorCode.AccountDisabled);
+  }
 
   await onAuthorize({ userId: createdUser.id }, c);
 

@@ -7,6 +7,7 @@ import { PARAPHE_FEATURES } from '../../constants/paraphe';
 import { AppError, AppErrorCode } from '../../errors/app-error';
 import { createPersonalOrganisation } from '../organisation/create-organisation';
 import { createSampleDocument } from './create-sample-document';
+import { signupRequiresApproval } from './signup-approval';
 
 export interface CreateUserOptions {
   name: string;
@@ -34,6 +35,8 @@ export const createUser = async ({ name, email, password, signature }: CreateUse
       email: email.toLowerCase(),
       password: hashedPassword, // Todo: (RR7) Drop password.
       signature,
+      // Scriptia: self-service accounts wait for the operator's approval.
+      disabled: signupRequiresApproval(),
     },
   });
 
@@ -67,7 +70,8 @@ export const onCreateUserHook = async (user: User, options: OnCreateUserHookOpti
     await createPersonalOrganisation({ userId: user.id });
 
     // Scriptia: a sample document to try signing. Never block signup on it.
-    if (PARAPHE_FEATURES.sampleDocument) {
+    // Pending accounts get it on approval instead (see onUserApproved).
+    if (PARAPHE_FEATURES.sampleDocument && !user.disabled) {
       await createSampleDocument({ userId: user.id }).catch((err) => {
         console.error('[Scriptia] Sample document was not created', err);
       });

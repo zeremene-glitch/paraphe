@@ -1,9 +1,18 @@
+import { signupRequiresApproval } from '@documenso/lib/server-only/user/signup-approval';
 import { Trans } from '@lingui/react/macro';
 import { Mails } from 'lucide-react';
 
 import { SendConfirmationEmailForm } from '~/components/forms/send-confirmation-email';
 
-export default function UnverifiedAccount() {
+import type { Route } from './+types/unverified-account';
+
+export const loader = () => {
+  return { requiresApproval: signupRequiresApproval() };
+};
+
+export default function UnverifiedAccount({ loaderData }: Route.ComponentProps) {
+  const { requiresApproval } = loaderData;
+
   return (
     <div className="w-screen max-w-lg px-4">
       <div className="flex items-start">
@@ -16,10 +25,18 @@ export default function UnverifiedAccount() {
           </h2>
 
           <p className="mt-4 text-muted-foreground">
-            <Trans>
-              We sent you a confirmation link. Click it to activate your account, then sign in. It can take a minute to
-              arrive, and may land in spam.
-            </Trans>
+            {requiresApproval ? (
+              <Trans>
+                We sent you a confirmation link. Click it to confirm your email. Every new account is then checked
+                before first use, and we will email you as soon as yours is approved. The email can take a minute and
+                may land in spam.
+              </Trans>
+            ) : (
+              <Trans>
+                We sent you a confirmation link. Click it to activate your account, then sign in. It can take a minute
+                to arrive, and may land in spam.
+              </Trans>
+            )}
           </p>
 
           <details className="group mt-8">

@@ -32,7 +32,7 @@ import { match } from 'ts-pattern';
 import { z } from 'zod';
 
 const CommonErrorMessages: Record<string, MessageDescriptor> = {
-  [AuthenticationErrorCode.AccountDisabled]: msg`This account has been disabled. Please contact support.`,
+  [AuthenticationErrorCode.AccountDisabled]: msg`Your account is waiting for approval. We will email you as soon as it is approved. Questions? support@scriptia.eu`,
 };
 
 const handleFallbackErrorMessages = (code: string) => {

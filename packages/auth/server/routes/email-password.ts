@@ -334,13 +334,23 @@ export const emailPasswordRoute = new Hono<HonoAuthContext>()
 
     const { state, userId } = await verifyEmail({ token });
 
+    let pendingApproval = false;
+
     // If email is verified, automatically authenticate user.
     if (state === EMAIL_VERIFICATION_STATE.VERIFIED && userId !== null) {
-      await onAuthorize({ userId }, c);
+      // Scriptia: an account waiting for approval cannot sign in yet.
+      const owner = await prisma.user.findFirst({ where: { id: userId }, select: { disabled: true } });
+
+      pendingApproval = owner?.disabled === true;
+
+      if (!pendingApproval) {
+        await onAuthorize({ userId }, c);
+      }
     }
 
     return c.json({
       state,
+      pendingApproval,
     });
   })
   /**

@@ -1,6 +1,8 @@
 import { AppError } from '@documenso/lib/errors/app-error';
 import { prisma } from '@documenso/prisma';
 
+import { onUserApproved } from './signup-approval';
+
 export type EnableUserOptions = {
   id: number;
 };
@@ -24,4 +26,9 @@ export const enableUser = async ({ id }: EnableUserOptions) => {
       disabled: false,
     },
   });
+
+  // Scriptia: tell the user and give a first-time account its sample document.
+  if (user.disabled) {
+    void onUserApproved({ userId: id });
+  }
 };
